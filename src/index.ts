@@ -1,20 +1,23 @@
-import express from 'express';
+import express, { Application, Request, Response } from 'express';
 
-import { Router, Request, Response } from 'express';
+class App {
+    public app: Application;
 
-const app = express();
+    constructor() {
+        this.app = express();
+        this.routes();
+    }
 
-const route = Router();
+    protected routes(): void {
+        this.app.route('/').get((req: Request, res: Response) => {
+            res.send('Hello world!');
+        });
+    }
+}
 
-app.use(express.json());
+const port: number = 8000;
+const app = new App().app;
 
-
-route.get('/', (req: Request, res: Response) => {
-    res.json({ message: 'Hello world!' });
-});
-
-app.use(route);
-
-app.listen(3333, () => { 
-    console.log('Server is running on: http://localhost:3333/'); 
+app.listen(port, () => {
+    console.log('The server is running on http://localhost:8000');
 });
