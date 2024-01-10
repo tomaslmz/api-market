@@ -1,10 +1,12 @@
 import express, { Application, Request, Response } from 'express';
+import Database from './config/database';
 
 class App {
     public app: Application;
 
     constructor() {
         this.app = express();
+        this.connectDatabase();
         this.routes();
     }
 
@@ -12,6 +14,11 @@ class App {
         this.app.route('/').get((req: Request, res: Response) => {
             res.send('Hello world!');
         });
+    }
+
+    protected connectDatabase(): void {
+        const db = new Database();
+        db.sequelize?.sync();
     }
 }
 
