@@ -2,7 +2,7 @@ import Administrator from '../models/Administrator';
 
 interface IAdministratorRepo {
     save(admin: Administrator): Promise<void>;
-    update(admin: Administrator, id: number): Promise<void>
+    update(admin: Administrator): Promise<void>
     delete(id: number): Promise<void>;
     listAll(): Promise<Administrator[]>;
     listById(id: number): Promise<Administrator>;
@@ -20,6 +20,7 @@ export default class AdministratorRepo implements IAdministratorRepo {
             throw new Error(`Failed to create an admin! ${err}`);
         }
     }
+
     async update(admin: Administrator): Promise<void> {
         try {
             const newAdministrator = await Administrator.findOne({
@@ -41,6 +42,7 @@ export default class AdministratorRepo implements IAdministratorRepo {
             throw new Error(`Failed to update an admin! ${err}`);
         }
     }
+
     async delete(id: number): Promise<void> {
         try {
             const newAdministrator = await Administrator.findOne({
@@ -58,6 +60,7 @@ export default class AdministratorRepo implements IAdministratorRepo {
             throw new Error(`Failed to update an admin! ${err}`);
         }
     }
+
     async listAll(): Promise<Administrator[]> {
         try {
             const Administrators = await Administrator.findAll();
@@ -66,6 +69,7 @@ export default class AdministratorRepo implements IAdministratorRepo {
             throw new Error(`Failed to list all admins! ${err}`);
         }
     }
+
     async listById(id: number): Promise<Administrator> {
         try {
             const newAdministrator = await Administrator.findOne({
