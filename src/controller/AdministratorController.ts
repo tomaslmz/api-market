@@ -1,8 +1,8 @@
 import { Request, Response } from 'express';
-import Administrator from '../models/Administrator';
+import { Administrator } from '../models/Administrator';
 import AdministratorRepo from '../repository/AdministratorRepo';
 
-export default class AdministratorController {
+class AdministratorController {
     async create(req: Request, res: Response) {
         try {
             const newAdministrator = new Administrator();
@@ -27,8 +27,10 @@ export default class AdministratorController {
 
     async update(req: Request, res: Response) {
         try {
+            const id = parseInt(req.params['id']);
             const newAdministrator = new Administrator();
 
+            newAdministrator.id = id;
             newAdministrator.name = req.body.name;
             newAdministrator.email = req.body.email;
             newAdministrator.password = req.body.password;
@@ -101,3 +103,5 @@ export default class AdministratorController {
         }
     }
 }
+
+export default new AdministratorController();
