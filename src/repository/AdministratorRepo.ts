@@ -1,4 +1,5 @@
 import { Administrator } from '../models/Administrator';
+import Sequelize from 'sequelize';
 
 interface IAdministratorRepo {
     save(admin: Administrator): Promise<void>;
@@ -17,6 +18,10 @@ export default class AdministratorRepo implements IAdministratorRepo {
                 password: admin.password
             });
         } catch (err) {
+            if(err instanceof Sequelize.UniqueConstraintError) {
+                throw new Error('A user with this email already exists!');
+            }
+
             throw new Error(`Failed to create an admin! ${err}`);
         }
     }
@@ -39,6 +44,10 @@ export default class AdministratorRepo implements IAdministratorRepo {
 
             await newAdministrator.save();
         } catch (err) {
+            if(err instanceof Sequelize.UniqueConstraintError) {
+                throw new Error('A user with this email already exists!');
+            }
+            
             throw new Error(`Failed to update an admin! ${err}`);
         }
     }
