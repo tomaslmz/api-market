@@ -2,16 +2,20 @@ import { Response, NextFunction, Request } from 'express';
 import jwt from 'jsonwebtoken';
 
 interface JwtPayLoad {
-  id: string,
+  id: number,
   email: string
 }
 
-interface CustomRequest extends Request { 
-  userId?: string,
-  userEmail?: string
+declare module 'express-serve-static-core' {
+  interface Request {
+    user: {
+      id: number,
+      email: string
+    }
+  }
 }
 
-const isLogged = (req: CustomRequest, res: Response, next: NextFunction) => {
+const isLogged = (req: Request, res: Response, next: NextFunction) => {
     const { authorization } = req.headers;
 
     if(!authorization) {
@@ -25,11 +29,10 @@ const isLogged = (req: CustomRequest, res: Response, next: NextFunction) => {
 
     try {
         const data = jwt.verify(token, process.env.TOKEN as string) as JwtPayLoad;
-      
-        const { id, email } = data;
 
-        req.userId = id;
-        req.userEmail = email;
+        const { email, id } = data;
+
+        req.user = { id, email };
 
         next();
     // eslint-disable-next-line @typescript-eslint/no-explicit-any

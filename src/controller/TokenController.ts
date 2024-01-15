@@ -6,10 +6,19 @@ import jwt from 'jsonwebtoken';
 import * as dotenv from 'dotenv';
 dotenv.config();
 
+declare module 'express-serve-static-core' {
+    interface Request {
+      user: {
+        id: number,
+        email: string
+      }
+    }
+  }
+
 class TokenController {
     async createAdministrator(req: Request, res: Response) {
         try {
-            const { email = '', password = '', id } = req.body;
+            const { email = '', password = '' } = req.body;
 
             if(!email || !password) {
                 throw new Error('Insert a valid login!');
@@ -25,6 +34,8 @@ class TokenController {
                 throw new Error('Admin not found!');
             }
 
+            const { id } = newAdministrator;
+
             const correctPassword = await compare(password, newAdministrator.password);
 
             if(!correctPassword) {
@@ -34,6 +45,8 @@ class TokenController {
             const token = jwt.sign({ id, email }, process.env.TOKEN as string, {
                 expiresIn: process.env.TOKEN_EXPIRATION as string
             });
+
+            req.user = { id, email };
 
             return res.json({ 
                 status: 'Ok!',

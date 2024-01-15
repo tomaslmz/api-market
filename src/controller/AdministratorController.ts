@@ -4,6 +4,15 @@ import { Administrator } from '../models/Administrator';
 import AdministratorRepo from '../repository/AdministratorRepo';
 import { encrypt } from '../helper/hash';
 
+declare module 'express-serve-static-core' {
+    interface Request {
+      user: {
+        id: number,
+        email: string
+      }
+    }
+  }
+
 class AdministratorController {
     async create(req: Request, res: Response) {
         try {
@@ -32,7 +41,7 @@ class AdministratorController {
 
     async update(req: Request, res: Response) {
         try {
-            const id = parseInt(req.params['id']);
+            const id = req.user.id;
             const newAdministrator = new Administrator();
 
             newAdministrator.id = id;
@@ -58,9 +67,9 @@ class AdministratorController {
 
     async delete(req: Request, res: Response) {
         try {
-            const administratorId = parseInt(req.params.id);
+            const id = req.user.id;
 
-            await new AdministratorRepo().delete(administratorId);
+            await new AdministratorRepo().delete(id);
 
             res.status(200).json({
                 status: 'Deleted!',
@@ -76,6 +85,10 @@ class AdministratorController {
 
     async listAll(req: Request, res: Response) {
         try {
+            if(req.user.id != 1) {
+                throw new Error('You don\'t have permission to do that!');
+            }
+
             const Administrators = await new AdministratorRepo().listAll();
 
             res.status(200).json({
@@ -93,7 +106,7 @@ class AdministratorController {
 
     async listById(req: Request, res: Response) {
         try {
-            const id = parseInt(req.params.id);
+            const id = req.user.id;
 
             const newAdministrator = await new AdministratorRepo().listById(id);
 

@@ -7,10 +7,10 @@ import { createAdministratorSchema, updateAdministratorSchema } from '../schema/
 class AdministratorRoutes extends BaseRoutes {
     public routes(): void {
         this.router.post('/create', isLogged, validate(createAdministratorSchema), AdministratorController.create);
-        this.router.patch('/update/:id', isLogged, validate(updateAdministratorSchema), AdministratorController.update);
-        this.router.delete('/delete/:id', isLogged, AdministratorController.delete);
+        this.router.patch('/update/', isLogged, validate(updateAdministratorSchema), AdministratorController.update);
+        this.router.delete('/delete/', isLogged, AdministratorController.delete);
         this.router.get('/list', isLogged, AdministratorController.listAll);
-        this.router.get('/list/:id', isLogged, AdministratorController.listById);
+        this.router.get('/search/', isLogged, AdministratorController.listById);
     }
 }
 
