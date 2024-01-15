@@ -16,6 +16,10 @@ declare module 'express-serve-static-core' {
 class AdministratorController {
     async create(req: Request, res: Response) {
         try {
+            if(req.user.id != 1) {
+                throw new Error('You don\'t have permission to do that!');
+            }
+            
             const newAdministrator = new Administrator();
 
             newAdministrator.name = req.body.name;
