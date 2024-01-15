@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Request, Response } from 'express';
 import { Administrator } from '../models/Administrator';
-import { encrypt, compare } from '../helper/hash';
+import { compare } from '../helper/hash';
 import jwt from 'jsonwebtoken';
 import * as dotenv from 'dotenv';
 dotenv.config();
@@ -16,16 +16,16 @@ class TokenController {
             }
 
             const newAdministrator = await Administrator.findOne({
-                where: email
+                where: {
+                    email
+                }
             });
 
             if(!newAdministrator) {
                 throw new Error('Admin not found!');
             }
 
-            const passwordHash = await encrypt(password);
-
-            const correctPassword = await compare(passwordHash, newAdministrator.password);
+            const correctPassword = await compare(password, newAdministrator.password);
 
             if(!correctPassword) {
                 throw new Error('The password is incorrect!');

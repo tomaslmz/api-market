@@ -1,15 +1,13 @@
-import { hash, genSalt, compare as compareHash } from 'bcrypt';
+import { hash, compare as compareHash } from 'bcrypt';
 
 export const encrypt = async (password: string) => {
-    const salt = await genSalt(8);
-
-    const passwordHash = await hash(password, salt);
+    const passwordHash = await hash(password, 8);
 
     return passwordHash;
 };
 
-export const compare = async (hash1: string, hash2: string) => {
-    const isEqual = await compareHash(hash1, hash2);
+export const compare = async (actualPassword: string, encryptedPassword: string) => {
+    const isEqual = await compareHash(actualPassword, encryptedPassword);
 
     return isEqual;
 };
