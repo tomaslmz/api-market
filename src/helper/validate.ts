@@ -15,6 +15,7 @@ const validate =
               // eslint-disable-next-line @typescript-eslint/no-explicit-any
           } catch(err: any) {
               const errorMessage = JSON.parse(err.message);
+              console.log(errorMessage);
               return res.status(400).json({
                   status: 'Bad request!',
                   message: errorMessage[0].message,
