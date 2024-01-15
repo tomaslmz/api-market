@@ -1,5 +1,5 @@
 import BaseRoutes from './base/BaseRouter';
-import validate from '../helper/validate';
+import validate from '../middlewares/validate';
 import AdministratorController from '../controller/AdministratorController';
 import { createAdministratorSchema, updateAdministratorSchema } from '../schema/AdministratorSchema';
 
