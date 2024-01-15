@@ -27,7 +27,7 @@ export class Administrator extends Model {
     @Column({
         type: DataType.STRING,
         allowNull: false,
-        field: Administrator.ADMIN_EMAIL
+        field: Administrator.ADMIN_EMAIL,
     }) email!: string;
 
     @Column({

@@ -1,6 +1,8 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Request, Response } from 'express';
 import { Administrator } from '../models/Administrator';
 import AdministratorRepo from '../repository/AdministratorRepo';
+import { encrypt } from '../helper/hash';
 
 class AdministratorController {
     async create(req: Request, res: Response) {
@@ -9,7 +11,10 @@ class AdministratorController {
 
             newAdministrator.name = req.body.name;
             newAdministrator.email = req.body.email;
-            newAdministrator.password = req.body.password;
+
+            const passwordHash = await encrypt(req.body.password);
+
+            newAdministrator.password = passwordHash;
 
             await new AdministratorRepo().save(newAdministrator);
 
@@ -17,10 +22,10 @@ class AdministratorController {
                 status: 'Created!',
                 message: 'Successfully administrator created!'
             });
-        } catch(err) {
+        } catch(err: any) {
             res.status(500).json({
                 status: 'Internal server error!',
-                message: err
+                message: err.message
             });
         }
     }
@@ -33,7 +38,9 @@ class AdministratorController {
             newAdministrator.id = id;
             newAdministrator.name = req.body.name;
             newAdministrator.email = req.body.email;
-            newAdministrator.password = req.body.password;
+            
+            const passwordHash = await encrypt(req.body.password);
+            newAdministrator.password = passwordHash;
 
             await new AdministratorRepo().update(newAdministrator);
 
@@ -41,10 +48,10 @@ class AdministratorController {
                 status: 'Updated!',
                 message: 'Successfully administrator updated!'
             });
-        } catch(err) {
+        } catch(err: any) {
             res.status(500).json({
                 status: 'Internal server error!',
-                message: err
+                message: err.message
             });
         }
     }
@@ -59,10 +66,10 @@ class AdministratorController {
                 status: 'Deleted!',
                 message: 'Successfully administrator deleted!'
             });
-        } catch(err) {
+        } catch(err: any) {
             res.status(500).json({
                 status: 'Internal server error!',
-                message: err
+                message: err.message
             });
         }
     }
@@ -76,10 +83,10 @@ class AdministratorController {
                 message: 'Successfully fetched administrator data!',
                 data: Administrators
             });
-        } catch(err) {
+        } catch(err: any) {
             res.status(500).json({
                 status: 'Internal server error!',
-                message: err
+                message: err.message
             });
         }
     }
@@ -95,10 +102,10 @@ class AdministratorController {
                 message: 'Successfully fetched administrator data!',
                 data: newAdministrator
             });
-        } catch(err) {
+        } catch(err: any) {
             res.status(500).json({
                 status: 'Internal server error!',
-                message: err
+                message: err.message
             });
         }
     }
