@@ -1,6 +1,7 @@
 import express, { Application, Request, Response } from 'express';
 import Database from './config/database';
 import AdministratorRouter from './router/AdministratorRouter';
+import TokenRouter from './router/TokenRouter';
 
 class App {
     public app: Application;
@@ -21,7 +22,9 @@ class App {
         this.app.route('/').get((req: Request, res: Response) => {
             res.send('Hello world!');
         });
+
         this.app.use('/api/v1/admin', AdministratorRouter);
+        this.app.use('/api/v1/token', TokenRouter);
     }
 
     protected connectDatabase(): void {
