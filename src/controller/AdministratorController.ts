@@ -45,7 +45,7 @@ class AdministratorController {
 
   async update(req: Request, res: Response) {
     try {
-      const id = req.user.id;
+      const id = req.user.id != 1 ? req.user.id : parseInt(req.params.id);
       const newAdministrator = new Administrator();
 
       newAdministrator.id = id;

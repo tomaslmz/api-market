@@ -15,7 +15,7 @@ export const createAdministratorSchema = z.object({
 });
 
 export const updateAdministratorSchema = z.object({
-  params: z.object({ id: z.string() }),
+  params: z.object({ id: z.string().nullable() }),
   body: z
     .object({
       name: z
