@@ -16,32 +16,32 @@ declare module 'express-serve-static-core' {
 }
 
 const isLogged = (req: Request, res: Response, next: NextFunction) => {
-    const { authorization } = req.headers;
+  const { authorization } = req.headers;
 
-    if(!authorization) {
-        return res.status(500).json({
-            status: 'Internal server error!',
-            message: 'Authorization can not be null!'
-        });
-    }
+  if(!authorization) {
+    return res.status(500).json({
+      status: 'Internal server error!',
+      message: 'Authorization can not be null!'
+    });
+  }
 
-    const [, token] = authorization.split(' ');
+  const [, token] = authorization.split(' ');
 
-    try {
-        const data = jwt.verify(token, process.env.TOKEN as string) as JwtPayLoad;
+  try {
+    const data = jwt.verify(token, process.env.TOKEN as string) as JwtPayLoad;
 
-        const { email, id } = data;
+    const { email, id } = data;
 
-        req.user = { id, email };
+    req.user = { id, email };
 
-        next();
+    next();
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch(err: any) {
-        return res.status(500).json({
-            status: 'Internal server error!',
-            message: err.message
-        });
-    }
+  } catch(err: any) {
+    return res.status(500).json({
+      status: 'Internal server error!',
+      message: err.message
+    });
+  }
 };
 
 export default isLogged;

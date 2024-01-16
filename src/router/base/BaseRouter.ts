@@ -2,14 +2,14 @@ import IRouter from './InterfaceRouter';
 import { Router } from 'express';
 
 abstract class BaseRoutes implements IRouter {
-    public router: Router;
+  public router: Router;
 
-    constructor() {
-        this.router = Router();
-        this.routes();
-    }
+  constructor() {
+    this.router = Router();
+    this.routes();
+  }
 
-    abstract routes(): void;
+  abstract routes(): void;
 }
 
 export default BaseRoutes;
