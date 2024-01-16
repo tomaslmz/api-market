@@ -33,6 +33,7 @@ module.exports = {
       'error',
       2
     ],
+    '@typescript-eslint/no-explicit-any': 0,
     'linebreak-style': [
       'error',
       'unix'
