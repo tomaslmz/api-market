@@ -26,7 +26,6 @@ export class Tag extends Model {
 
   @Column({
     type: DataType.STRING,
-    unique: true,
     allowNull: true,
     field: Tag.TAG_COLOR,
   }) color!: string;

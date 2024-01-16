@@ -16,10 +16,12 @@ export default class TagRepo implements ITagRepo {
         name: tag.name,
         color: tag.color
       });
-    } catch(err) {
+    } catch(err: any) {
       if(err instanceof Sequelize.UniqueConstraintError) {
         throw new Error('A tag with this name already exists!');
       }
+
+      throw new Error(`Failed to create an admin! ${err}`);
     }
   }
 

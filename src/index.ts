@@ -2,6 +2,7 @@ import express, { Application, Request, Response } from 'express';
 import Database from './config/database';
 import AdministratorRouter from './router/AdministratorRouter';
 import TokenRouter from './router/TokenRouter';
+import TagRouter from './router/TagRouter';
 
 class App {
   public app: Application;
@@ -25,6 +26,7 @@ class App {
 
     this.app.use('/api/v1/admin', AdministratorRouter);
     this.app.use('/api/v1/token', TokenRouter);
+    this.app.use('/api/v1/tag', TagRouter);
   }
 
   protected connectDatabase(): void {
