@@ -66,7 +66,7 @@ export default class AdministratorRepo implements IAdministratorRepo {
 
       newAdministrator.destroy();
     } catch (err) {
-      throw new Error(`Failed to update an admin! ${err}`);
+      throw new Error(`Failed to delete an admin! ${err}`);
     }
   }
 
