@@ -10,8 +10,8 @@ class TagRoutes extends BaseRoutes {
     this.router.post('/create', isLogged, isAdmin, validate(createTagSchema), TagController.create);
     this.router.patch('/update/:id', isLogged, isAdmin, validate(updateTagSchema), TagController.update);
     this.router.delete('/delete/:id', isLogged, isAdmin, TagController.delete);
-    this.router.get('/list', isLogged, isAdmin, TagController.listAll);
-    this.router.get('/search', isLogged, isAdmin, TagController.listByName);
+    this.router.get('/list', isLogged, TagController.listAll);
+    this.router.get('/search', isLogged, TagController.listByName);
   }
 }
 
