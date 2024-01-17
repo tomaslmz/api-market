@@ -4,7 +4,7 @@ import { Model, Table, Column, DataType } from 'sequelize-typescript';
   tableName: Tag.tableName
 })
 
-export class Tag extends Model {
+export default class Tag extends Model {
   public static TAG_TABLE_NAME = 'Tags' as string;
   public static TAG_ID = 'id' as string;
   public static TAG_NAME = 'name' as string;

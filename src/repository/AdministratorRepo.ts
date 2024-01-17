@@ -1,4 +1,4 @@
-import { Administrator } from '../models/Administrator';
+import Administrator from '../models/Administrator';
 import Sequelize from 'sequelize';
 
 interface IAdministratorRepo {

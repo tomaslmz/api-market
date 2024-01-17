@@ -4,7 +4,7 @@ import { Model, Table, Column, DataType } from 'sequelize-typescript';
   tableName: Administrator.tableName
 })
 
-export class Administrator extends Model {
+export default class Administrator extends Model {
   public static ADMIN_TABLE_NAME = 'Administrators' as string;
   public static ADMIN_ID = 'id' as string;
   public static ADMIN_NAME = 'name' as string;

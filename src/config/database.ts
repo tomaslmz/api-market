@@ -1,7 +1,7 @@
 import { Sequelize } from 'sequelize-typescript';
 import * as dotenv from 'dotenv';
-import { Administrator } from '../models/Administrator';
-import { Tag } from '../models/Tag';
+import Administrator from '../models/Administrator';
+import Tag from '../models/Tag';
 dotenv.config();
 
 export default class Database {

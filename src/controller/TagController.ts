@@ -1,5 +1,5 @@
 import TagRepo from '../repository/TagRepo';
-import { Tag } from '../models/Tag';
+import Tag from '../models/Tag';
 import { Request, Response } from 'express';
 
 class TagController {

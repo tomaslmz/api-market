@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
-import { Administrator } from '../models/Administrator';
+import Administrator from '../models/Administrator';
 
 export const isAdmin = (req: Request, res: Response, next: NextFunction) => {
   try {

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Request, Response } from 'express';
-import { Administrator } from '../models/Administrator';
+import Administrator from '../models/Administrator';
 import AdministratorRepo from '../repository/AdministratorRepo';
 import { encrypt } from '../helper/hash';
 

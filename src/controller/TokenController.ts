@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Request, Response } from 'express';
-import { Administrator } from '../models/Administrator';
+import Administrator from '../models/Administrator';
 import { compare } from '../helper/hash';
 import jwt from 'jsonwebtoken';
 import * as dotenv from 'dotenv';
