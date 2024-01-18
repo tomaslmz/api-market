@@ -1,6 +1,6 @@
 import BaseRoutes from './base/BaseRouter';
 import isLogged from '../middlewares/loginRequired';
-import validate from '../middlewares/validate';
+import validate from '../middlewares/validateSchema';
 import { createTagSchema, updateTagSchema } from '../schema/TagSchema';
 import TagController from '../controller/TagController';
 import isAdmin from '../middlewares/adminRequired';
