@@ -2,6 +2,8 @@ import { Sequelize } from 'sequelize-typescript';
 import * as dotenv from 'dotenv';
 import Administrator from '../models/Administrator';
 import Tag from '../models/Tag';
+import Supplier from '../models/Supplier';
+import SupplierPhoto from '../models/SupplierPhoto';
 dotenv.config();
 
 export default class Database {
@@ -25,7 +27,7 @@ export default class Database {
       port: this.POSTGRES_PORT,
       host: this.POSTGRES_HOST,
       dialect: 'postgres',
-      models: [Administrator, Tag]
+      models: [Administrator, Tag, Supplier, SupplierPhoto]
     });
 
     this.sequelize.authenticate().then(() => {
