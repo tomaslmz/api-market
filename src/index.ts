@@ -3,6 +3,7 @@ import Database from './config/database';
 import AdministratorRouter from './router/AdministratorRouter';
 import TokenRouter from './router/TokenRouter';
 import TagRouter from './router/TagRouter';
+import { resolve } from 'path';
 
 class App {
   public app: Application;
@@ -17,6 +18,7 @@ class App {
   protected plugins(): void {
     this.app.use(express.json());
     this.app.use(express.urlencoded({ extended: true }));
+    this.app.use('/images/', express.static(resolve(__dirname, '..', 'uploads', 'images')));
   }
 
   protected routes(): void {
