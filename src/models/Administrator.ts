@@ -1,4 +1,5 @@
-import { Model, Table, Column, DataType } from 'sequelize-typescript';
+import { Model, Table, Column, DataType, BeforeCreate, BeforeUpdate } from 'sequelize-typescript';
+import { hash, compare } from 'bcrypt';
 
 @Table({
   tableName: Administrator.tableName
@@ -34,6 +35,17 @@ export default class Administrator extends Model {
     @Column({
       type: DataType.STRING,
       allowNull: false,
-      field: Administrator.ADMIN_PASSWORD
+      field: Administrator.ADMIN_PASSWORD,
     }) password!: string;
+
+    @BeforeCreate
+    @BeforeUpdate
+    static async hashPassword(instance: Administrator): Promise<void> {
+      const passwordHash = await hash(instance.password, 8);
+      instance.password = passwordHash;
+    }
+
+    async comparePassword(password: string): Promise<boolean> {
+      return await compare(password, this.password);
+    }
 }

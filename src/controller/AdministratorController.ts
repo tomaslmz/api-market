@@ -2,7 +2,6 @@
 import { Request, Response } from 'express';
 import Administrator from '../models/Administrator';
 import AdministratorRepo from '../repository/AdministratorRepo';
-import { encrypt } from '../helper/hash';
 
 declare module 'express-serve-static-core' {
     interface Request {
@@ -25,9 +24,9 @@ class AdministratorController {
       newAdministrator.name = req.body.name;
       newAdministrator.email = req.body.email;
 
-      const passwordHash = await encrypt(req.body.password);
+      // const passwordHash = await encrypt(req.body.password);
 
-      newAdministrator.password = passwordHash;
+      newAdministrator.password = req.body.password;
 
       await new AdministratorRepo().save(newAdministrator);
 
@@ -45,15 +44,13 @@ class AdministratorController {
 
   async update(req: Request, res: Response) {
     try {
-      const id = req.user.id != 1 ? req.user.id : parseInt(req.params.id);
+      const id = req.user.id === 1 && typeof req.params.id !== 'undefined' ? parseInt(req.params.id) :req.user.id;
       const newAdministrator = new Administrator();
 
       newAdministrator.id = id;
       newAdministrator.name = req.body.name;
       newAdministrator.email = req.body.email;
-            
-      const passwordHash = await encrypt(req.body.password);
-      newAdministrator.password = passwordHash;
+      newAdministrator.password = req.body.password;
 
       await new AdministratorRepo().update(newAdministrator);
 

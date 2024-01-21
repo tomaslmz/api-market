@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Request, Response } from 'express';
 import Administrator from '../models/Administrator';
-import { compare } from '../helper/hash';
 import jwt from 'jsonwebtoken';
 import * as dotenv from 'dotenv';
 dotenv.config();
@@ -36,7 +35,7 @@ class TokenController {
 
       const { id } = newAdministrator;
 
-      const correctPassword = await compare(password, newAdministrator.password);
+      const correctPassword = await newAdministrator.comparePassword(password);
 
       if(!correctPassword) {
         throw new Error('The password is incorrect!');
