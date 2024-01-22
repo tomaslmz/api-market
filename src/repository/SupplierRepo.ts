@@ -13,6 +13,8 @@ export default class SupplierRepo implements ISupplierRepo {
     try {
       await Supplier.create({
         name: supplier.name,
+        email: supplier.email,
+        password: supplier.password
       });
     } catch(err: any) {
       throw new Error(`Failed to create a supplier! ${err}`);
@@ -32,6 +34,11 @@ export default class SupplierRepo implements ISupplierRepo {
       }
 
       newSupplier.name = supplier.name;
+      newSupplier.email = supplier.email;
+      
+      if(supplier.password !== '') {
+        newSupplier.password = supplier.password;
+      }
 
       await newSupplier.save();
     } catch(err: any) {
