@@ -3,6 +3,7 @@ import Database from './config/database';
 import AdministratorRouter from './router/AdministratorRouter';
 import TokenRouter from './router/TokenRouter';
 import TagRouter from './router/TagRouter';
+import SupplierRouter from './router/SupplierRouter';
 import { resolve } from 'path';
 
 class App {
@@ -29,6 +30,7 @@ class App {
     this.app.use('/api/v1/admin', AdministratorRouter);
     this.app.use('/api/v1/token', TokenRouter);
     this.app.use('/api/v1/tag', TagRouter);
+    this.app.use('/api/v1/supplier', SupplierRouter);
   }
 
   protected connectDatabase(): void {
