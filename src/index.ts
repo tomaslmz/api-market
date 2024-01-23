@@ -5,6 +5,7 @@ import TokenRouter from './router/TokenRouter';
 import TagRouter from './router/TagRouter';
 import SupplierRouter from './router/SupplierRouter';
 import { resolve } from 'path';
+import SupplierPhotoRouter from './router/SupplierPhotoRouter';
 
 class App {
   public app: Application;
@@ -31,6 +32,7 @@ class App {
     this.app.use('/api/v1/token', TokenRouter);
     this.app.use('/api/v1/tag', TagRouter);
     this.app.use('/api/v1/supplier', SupplierRouter);
+    this.app.use('/api/v1/supplier/photo', SupplierPhotoRouter);
   }
 
   protected connectDatabase(): void {

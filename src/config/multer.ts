@@ -1,19 +1,15 @@
 import { Request } from 'express';
 import multer from 'multer';
-import mime from 'mime';
 import fs from 'fs';
 import { extname, resolve } from 'path';
 
 export default {
   fileFilter: (req: Request, file: Express.Multer.File, cb: multer.FileFilterCallback) => {
-    const type = mime.getExtension(file.mimetype);
-    const validTypes = ['jpg', 'jpeg', 'png'];
-
-    if(validTypes.includes(`${type}`)) {
-      cb(null, true);
+    if(file.mimetype !== 'image/png' && file.mimetype !== 'image/jpeg') {
+      return cb(new Error('The file is not a image!'));
     }
 
-    cb(null, false);
+    return cb(null, true);
   },
 
   storage: multer.diskStorage({
