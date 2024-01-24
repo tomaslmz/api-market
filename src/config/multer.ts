@@ -5,7 +5,7 @@ import { extname, resolve } from 'path';
 
 export default {
   fileFilter: (req: Request, file: Express.Multer.File, cb: multer.FileFilterCallback) => {
-    if(file.mimetype !== 'image/png' && file.mimetype !== 'image/jpeg') {
+    if(file.mimetype !== 'image/png' && file.mimetype !== 'image/jpeg' && file.mimetype !== 'image/png' && file.mimetype !== 'image/webp') {
       return cb(new Error('The file is not a image!'));
     }
 
