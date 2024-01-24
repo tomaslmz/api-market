@@ -1,4 +1,5 @@
 import Supplier from '../models/Supplier';
+import SupplierPhoto from '../models/SupplierPhoto';
 
 interface ISupplierRepo {
   save(supplier: Supplier): Promise<void>;
@@ -66,7 +67,12 @@ export default class SupplierRepo implements ISupplierRepo {
 
   async listAll(): Promise<Supplier[]> {
     try {
-      const Suppliers = await Supplier.findAll();
+      const Suppliers = await Supplier.findAll({
+        include: {
+          model: SupplierPhoto,
+          as: 'photo'
+        }
+      });
 
       return Suppliers;
     } catch(err: any) {
