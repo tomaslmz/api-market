@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import SupplierPhotoRepo from '../repository/SupplierPhotoRepo';
 import SupplierPhoto from '../models/SupplierPhoto';
+import fs from 'fs';
 
 class SupplierPhotoController {
   async create(req: Request, res: Response) {
@@ -31,8 +32,15 @@ class SupplierPhotoController {
 
   async delete(req: Request, res: Response) {
     try {
+      const newSupplierPhoto = await SupplierPhoto.findOne({
+        where: {
+          id: req.user.id
+        }
+      });
+
       await new SupplierPhotoRepo().delete(req.user.id);
 
+      fs.unlink(`./uploads/images/${newSupplierPhoto?.filename}`, (e) => console.log(e));
       res.status(200).json({
         status: 'Deleted!',
         message: 'This photo has been deleted successfully!'
