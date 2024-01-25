@@ -15,7 +15,7 @@ declare module 'express-serve-static-core' {
   }
 }
 
-const isLogged = (req: Request, res: Response, next: NextFunction) => {
+export const isAdminLogged = (req: Request, res: Response, next: NextFunction) => {
   const { authorization } = req.headers;
 
   if(!authorization) {
@@ -43,5 +43,3 @@ const isLogged = (req: Request, res: Response, next: NextFunction) => {
     });
   }
 };
-
-export default isLogged;
