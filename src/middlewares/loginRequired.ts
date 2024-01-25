@@ -1,5 +1,5 @@
 import { Response, NextFunction, Request } from 'express';
-import jwt from 'jsonwebtoken';
+import jwt, { JwtPayload } from 'jsonwebtoken';
 
 interface JwtPayLoad {
   id: number,
@@ -16,30 +16,51 @@ declare module 'express-serve-static-core' {
 }
 
 export const isAdminLogged = (req: Request, res: Response, next: NextFunction) => {
-  const { authorization } = req.headers;
-
-  if(!authorization) {
-    return res.status(500).json({
-      status: 'Internal server error!',
-      message: 'Authorization can not be null!'
-    });
-  }
-
-  const [, token] = authorization.split(' ');
-
   try {
-    const data = jwt.verify(token, process.env.TOKEN as string) as JwtPayLoad;
+    const { authorization } = req.headers;
+
+    if(!authorization) {
+      throw new Error('Authorization can not be null!');
+    }
+
+    const [, token] = authorization.split(' ');
+  
+    const data = jwt.verify(token, process.env.ADMIN_TOKEN as string) as JwtPayLoad;
 
     const { email, id } = data;
 
     req.user = { id, email };
 
     next();
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch(err: any) {
     return res.status(500).json({
       status: 'Internal server error!',
       message: err.message
+    });
+  }
+};
+
+export const isSupplierLogged = (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const { authorization } = req.headers;
+
+    if(!authorization) {
+      throw new Error('Authorization can not be null!');
+    }
+
+    const [, token] = authorization.split(' ');
+
+    const data = jwt.verify(token, process.env.SUPPLIER_TOKEN as string) as JwtPayload;
+
+    const { email, id } = data;
+
+    req.user = { id, email };
+
+    next();
+  } catch(err: any) {
+    return res.status(500).json({
+      status: 'Internal server error!',
+      message: err.message,
     });
   }
 };
