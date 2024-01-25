@@ -37,7 +37,7 @@ export default class SupplierPhoto extends Model {
   @Column({
     type: DataType.VIRTUAL,
     get() {
-      return `${process.env.URL}/images/${this.getDataValue('filename')}`;
+      return `${process.env.URL}images/${this.getDataValue('filename')}`;
     }
   }) url!: string;
 

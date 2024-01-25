@@ -11,6 +11,7 @@ export default class SupplierPhotoRepo implements ISupplierPhotoRepo {
       await SupplierPhoto.create({
         originalName: supplierPhoto.originalName,
         filename: supplierPhoto.filename,
+        supplier_id: supplierPhoto.supplier_id
       });
     } catch(err: any) {
       throw new Error(`Failed to upload this supplier photo! ${err}`);

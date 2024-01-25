@@ -70,7 +70,7 @@ export default class SupplierRepo implements ISupplierRepo {
       const Suppliers = await Supplier.findAll({
         include: {
           model: SupplierPhoto,
-          as: 'photo'
+          as: 'photo',
         }
       });
 

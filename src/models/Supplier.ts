@@ -51,6 +51,6 @@ export default class Supplier extends Model {
     return await compare(password, this.password);
   }
 
-  @HasOne(() => SupplierPhoto)
+  @HasOne(() => SupplierPhoto, { foreignKey: 'supplier_id', as: 'photo' })
     photo?: SupplierPhoto;
 }
