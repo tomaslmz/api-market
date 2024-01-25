@@ -43,7 +43,7 @@ class TokenController {
       
       const { id } = newAdministrator;
 
-      const token = jwt.sign({ id, email }, process.env.TOKEN_ADMIN as string, {
+      const token = jwt.sign({ id, email }, process.env.ADMIN_TOKEN as string, {
         expiresIn: process.env.TOKEN_EXPIRATION as string
       });
 
@@ -95,7 +95,7 @@ class TokenController {
 
       const { id } = newSupplier;
 
-      const token = jwt.sign({ id, email }, process.env.ADMIN_TOKEN as string, {
+      const token = jwt.sign({ id, email }, process.env.SUPPLIER_TOKEN as string, {
         expiresIn: process.env.TOKEN_EXPIRATION as string
       });
 
