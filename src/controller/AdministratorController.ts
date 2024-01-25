@@ -44,7 +44,7 @@ class AdministratorController {
 
   async update(req: Request, res: Response) {
     try {
-      const id = req.user.id === 1 && typeof req.params.id !== 'undefined' ? parseInt(req.params.id) :req.user.id;
+      const id = req.user.id === 1 && typeof req.params.id !== 'undefined' ? parseInt(req.params.id) : req.user.id;
       const newAdministrator = new Administrator();
 
       newAdministrator.id = id;
@@ -68,7 +68,7 @@ class AdministratorController {
 
   async delete(req: Request, res: Response) {
     try {
-      const id = req.user.id;
+      const id = req.user.id === 1 && typeof req.params.id !== 'undefined' ? parseInt(req.params.id) : req.user.id;
 
       await new AdministratorRepo().delete(id);
 
