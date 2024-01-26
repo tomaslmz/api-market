@@ -11,6 +11,7 @@ export default class User extends Model {
   public static USER_NAME = 'name' as string;
   public static USER_EMAIL = 'email' as string;
   public static USER_PASSWORD = 'password' as string;
+  public static USER_BALANCE = 'balance' as string;
 
   @Column({
     type: DataType.INTEGER,
@@ -37,6 +38,12 @@ export default class User extends Model {
     allowNull: false,
     field: User.USER_PASSWORD
   }) password!: string;
+
+  @Column({
+    type: DataType.FLOAT,
+    defaultValue: 0,
+    field: User.USER_BALANCE
+  }) balance!: number;
 
   @BeforeCreate
   @BeforeUpdate
