@@ -4,6 +4,8 @@ import Administrator from '../models/Administrator';
 import Tag from '../models/Tag';
 import Supplier from '../models/Supplier';
 import SupplierPhoto from '../models/SupplierPhoto';
+import User from '../models/User';
+
 dotenv.config();
 
 export default class Database {
@@ -27,7 +29,7 @@ export default class Database {
       port: this.POSTGRES_PORT,
       host: this.POSTGRES_HOST,
       dialect: 'postgres',
-      models: [Administrator, Tag, Supplier, SupplierPhoto]
+      models: [Administrator, Tag, Supplier, SupplierPhoto, User]
     });
 
     this.sequelize.authenticate().then(() => {
