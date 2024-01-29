@@ -1,11 +1,13 @@
 import express, { Application, Request, Response } from 'express';
 import Database from './config/database';
+import { resolve } from 'path';
+
 import AdministratorRouter from './router/AdministratorRouter';
 import TokenRouter from './router/TokenRouter';
 import TagRouter from './router/TagRouter';
 import SupplierRouter from './router/SupplierRouter';
-import { resolve } from 'path';
 import SupplierPhotoRouter from './router/SupplierPhotoRouter';
+import UserRouter from './router/UserRouter';
 
 class App {
   public app: Application;
@@ -33,6 +35,7 @@ class App {
     this.app.use('/api/v1/tag', TagRouter);
     this.app.use('/api/v1/supplier', SupplierRouter);
     this.app.use('/api/v1/supplier/photo', SupplierPhotoRouter);
+    this.app.use('/api/v1/user', UserRouter);
   }
 
   protected connectDatabase(): void {
