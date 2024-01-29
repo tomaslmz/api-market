@@ -24,7 +24,7 @@ export default class Database {
       database: this.POSTGRES_DB,
       username: this.POSTGRES_USER,
       password: this.POSTGRES_PASSWORD,
-      port: this.POSTGRES_PORT,
+      port: parseInt(this.POSTGRES_PORT),
       host: this.POSTGRES_HOST,
       dialect: 'postgres',
       models: [Administrator, Tag, Supplier, SupplierPhoto, User]
