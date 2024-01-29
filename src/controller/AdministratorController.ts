@@ -23,9 +23,6 @@ class AdministratorController {
 
       newAdministrator.name = req.body.name;
       newAdministrator.email = req.body.email;
-
-      // const passwordHash = await encrypt(req.body.password);
-
       newAdministrator.password = req.body.password;
 
       await new AdministratorRepo().save(newAdministrator);
