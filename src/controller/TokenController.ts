@@ -5,6 +5,7 @@ import env from '../env';
 
 import Administrator from '../models/Administrator';
 import Supplier from '../models/Supplier';
+import User from '../models/User';
 
 declare module 'express-serve-static-core' {
     interface Request {
@@ -94,8 +95,8 @@ class TokenController {
 
       const { id } = newSupplier;
 
-      const token = jwt.sign({ id, email }, env.SUPPLIER_TOKEN as string, {
-        expiresIn: env.TOKEN_EXPIRATION as string
+      const token = jwt.sign({ id, email }, env.SUPPLIER_TOKEN, {
+        expiresIn: env.TOKEN_EXPIRATION
       });
 
       req.user = { id, email };
@@ -115,6 +116,57 @@ class TokenController {
       return res.status(500).json({
         status: 'Internal server error!',
         message: err.any
+      });
+    }
+  }
+
+  async createUser(req: Request, res: Response) {
+    try {
+      const { email, password } = req.body;
+
+      if(!email || !password) {
+        throw new Error('Insert a valid login!');
+      }
+
+      const newUser = await User.findOne({
+        where: {
+          email
+        }
+      });
+
+      if(!newUser) {
+        throw new Error('User not found!');
+      }
+
+      const isPasswordCorrect = newUser.comparePassword(password);
+
+      if(!isPasswordCorrect) {
+        throw new Error('The password is incorrect!');
+      }
+
+      const { id } = newUser;
+
+      req.body.user =  { id, email };
+
+      const token = jwt.sign({ id, email }, env.USER_TOKEN, {
+        expiresIn: env.TOKEN_EXPIRATION
+      });
+
+      return res.status(200).json({
+        status: 'Ok!',
+        message: 'Token has been created successfully!',
+        data: {
+          token,
+          user: {
+            id: newUser.id,
+            email: newUser.email
+          }
+        }
+      });
+    } catch(err: any) {
+      return res.status(500).json({
+        status: 'Internal server error!',
+        message: err.message
       });
     }
   }
