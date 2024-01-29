@@ -12,6 +12,7 @@ export default class SupplierPhoto extends Model {
   public static SUPPLIER_PHOTO_ORIGINAL_NAME = 'original_name' as string;
   public static SUPPLIER_PHOTO_FILENAME = 'filename' as string;
   public static SUPPLIER_PHOTO_URL = 'url' as string;
+  public static SUPPLIER_ID = 'supplier_id' as string;
 
   @Column({
     type: DataType.INTEGER,
@@ -41,8 +42,11 @@ export default class SupplierPhoto extends Model {
   }) url!: string;
 
   @ForeignKey(() => Supplier)
-  @Column
-    supplier_id!: number;
+  @Column({
+    type: DataType.INTEGER,
+    allowNull: false,
+    unique: true
+  }) supplier_id!: number;
 
   @BelongsTo(() => Supplier)
     supplier!: Supplier;
