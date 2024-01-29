@@ -1,7 +1,6 @@
 import { Model, Table, Column, DataType, ForeignKey, BelongsTo } from 'sequelize-typescript';
-import * as dotenv from 'dotenv';
+import env from '../env';
 import Supplier from './Supplier';
-dotenv.config();
 
 @Table({
   tableName: SupplierPhoto.SUPPLIER_PHOTO_TABLE_NAME
@@ -37,7 +36,7 @@ export default class SupplierPhoto extends Model {
   @Column({
     type: DataType.VIRTUAL,
     get() {
-      return `${process.env.URL}images/${this.getDataValue('filename')}`;
+      return `${env.URL}images/${this.getDataValue('filename')}`;
     }
   }) url!: string;
 

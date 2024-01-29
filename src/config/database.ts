@@ -1,21 +1,19 @@
 import { Sequelize } from 'sequelize-typescript';
-import * as dotenv from 'dotenv';
 import Administrator from '../models/Administrator';
+import env from '../env';
 import Tag from '../models/Tag';
 import Supplier from '../models/Supplier';
 import SupplierPhoto from '../models/SupplierPhoto';
 import User from '../models/User';
 
-dotenv.config();
-
 export default class Database {
   public sequelize: Sequelize | undefined;
 
-  private POSTGRES_DB = process.env.POSTGRES_DB as string;
-  private POSTGRES_HOST = process.env.POSTGRES_HOST as string;
-  private POSTGRES_PORT = process.env.POSTGRES_PORT as unknown as number;
-  private POSTGRES_USER = process.env.POSTGRES_USER as unknown as string;
-  private POSTGRES_PASSWORD = process.env.POSTGRES_PASSWORD as string;
+  private POSTGRES_DB = env.POSTGRES_DB;
+  private POSTGRES_HOST = env.POSTGRES_HOST;
+  private POSTGRES_PORT = env.POSTGRES_PORT;
+  private POSTGRES_USER = env.POSTGRES_USER;
+  private POSTGRES_PASSWORD = env.POSTGRES_PASSWORD;
 
   constructor() {
     this.connect();

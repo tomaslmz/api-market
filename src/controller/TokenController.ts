@@ -1,8 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
-import * as dotenv from 'dotenv';
-dotenv.config();
+import env from '../env';
 
 import Administrator from '../models/Administrator';
 import Supplier from '../models/Supplier';
@@ -43,8 +42,8 @@ class TokenController {
       
       const { id } = newAdministrator;
 
-      const token = jwt.sign({ id, email }, process.env.ADMIN_TOKEN as string, {
-        expiresIn: process.env.TOKEN_EXPIRATION as string
+      const token = jwt.sign({ id, email }, env.ADMIN_TOKEN, {
+        expiresIn: env.TOKEN_EXPIRATION
       });
 
       req.user = { id, email };
@@ -95,8 +94,8 @@ class TokenController {
 
       const { id } = newSupplier;
 
-      const token = jwt.sign({ id, email }, process.env.SUPPLIER_TOKEN as string, {
-        expiresIn: process.env.TOKEN_EXPIRATION as string
+      const token = jwt.sign({ id, email }, env.SUPPLIER_TOKEN as string, {
+        expiresIn: env.TOKEN_EXPIRATION as string
       });
 
       req.user = { id, email };

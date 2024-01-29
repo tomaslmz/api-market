@@ -1,5 +1,6 @@
 import { Response, NextFunction, Request } from 'express';
 import jwt, { JwtPayload } from 'jsonwebtoken';
+import env from '../env';
 
 interface JwtPayLoad {
   id: number,
@@ -25,7 +26,7 @@ export const isAdminLogged = (req: Request, res: Response, next: NextFunction) =
 
     const [, token] = authorization.split(' ');
   
-    const data = jwt.verify(token, process.env.ADMIN_TOKEN as string) as JwtPayLoad;
+    const data = jwt.verify(token, env.ADMIN_TOKEN) as JwtPayLoad;
 
     const { email, id } = data;
 
@@ -50,7 +51,7 @@ export const isSupplierLogged = (req: Request, res: Response, next: NextFunction
 
     const [, token] = authorization.split(' ');
 
-    const data = jwt.verify(token, process.env.SUPPLIER_TOKEN as string) as JwtPayload;
+    const data = jwt.verify(token, env.SUPPLIER_TOKEN) as JwtPayload;
 
     const { email, id } = data;
 
