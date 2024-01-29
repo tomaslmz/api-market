@@ -65,3 +65,28 @@ export const isSupplierLogged = (req: Request, res: Response, next: NextFunction
     });
   }
 };
+
+export const isUserLogged = (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const { authorization } = req.headers;
+
+    if(!authorization) {
+      throw new Error('Authorization can not be null!');
+    }
+
+    const [, token] = authorization.split(' ');
+
+    const data = jwt.verify(token, env.USER_TOKEN) as JwtPayload;
+
+    const { email, id } = data;
+
+    req.user = { id, email };
+
+    next();
+  } catch(err: any) {
+    return res.status(500).json({
+      status: 'Internal server error!',
+      message: err.message,
+    });
+  }
+};
