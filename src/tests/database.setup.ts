@@ -21,7 +21,7 @@ const sequelize = new Sequelize({
   host: POSTGRES_HOST,
   dialect: 'postgres',
   models: [Administrator, Tag, Supplier, SupplierPhoto, User],
-  logging: false,
+  logging: false
 });
 
 export default sequelize;
