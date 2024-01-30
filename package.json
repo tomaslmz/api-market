@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "npx vitest",
-    "dev": "npx ts-node ./src/index.ts"
+    "start:dev": "npx ts-node ./src/index.ts",
+    "create:admin": "npx ts-node ./src/database/seeder/createFirstAdmin.ts",
+    "create:admin:test": "npx ts-node ./src/database/seeder/createFirstAdminTest.ts"
   },
   "keywords": [],
   "author": "",
