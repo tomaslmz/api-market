@@ -9,8 +9,6 @@ beforeEach(async () => {
 });
 
 it('should create an administrator and store it', async () => {
-  // await sequelize.sync({ force: true });
-
   const email = getRandomEmail();
 
   const newAdministrator = new Administrator({
@@ -33,8 +31,6 @@ it('should create an administrator and store it', async () => {
 });
 
 it('should select an administrator', async () => {
-  // await sequelize.sync({ force: true });
-
   const email = getRandomEmail();
 
   const testAdministrator = await Administrator.create({
@@ -56,8 +52,6 @@ it('should select an administrator', async () => {
 });
 
 it('should delete an administrator', async () => {
-  // await sequelize.sync({ force: true });
-
   const email = getRandomEmail();
 
   const newAdministrator = await Administrator.create({
@@ -83,8 +77,6 @@ it('should delete an administrator', async () => {
 });
 
 it('should update an administrator', async () => {
-  // await sequelize.sync({ force: true });
-
   const email = getRandomEmail();
 
   const newAdministrator = await Administrator.create({

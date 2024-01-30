@@ -11,8 +11,6 @@ beforeEach(async () => {
 });
 
 it('should create an Tag and store it', async () => {
-  // await sequelize.sync({ force: false });
-
   const name = getRandomName();
   const color = getRandomColor();
 
@@ -35,8 +33,6 @@ it('should create an Tag and store it', async () => {
 });
 
 it('should select an Tag', async () => {
-  // await sequelize.sync({ force: false });
-
   const name = getRandomName();
   const color = getRandomColor();
 
@@ -58,8 +54,6 @@ it('should select an Tag', async () => {
 });
 
 it('should delete an Tag', async () => {
-  // await sequelize.sync({ force: false });
-
   const name = getRandomName();
   const color = getRandomColor();
 
@@ -85,8 +79,6 @@ it('should delete an Tag', async () => {
 });
 
 it('should update an Tag', async () => {
-  // await sequelize.sync({ force: false });
-
   const name = getRandomName();
   const color = getRandomColor();
 
