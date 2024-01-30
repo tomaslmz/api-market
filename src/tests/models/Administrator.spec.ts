@@ -1,11 +1,15 @@
-import { expect, it } from 'vitest';
+import { expect, it, beforeEach } from 'vitest';
 import sequelize from '../database.setup';
 import Administrator from '../../models/Administrator';
 import AdministratorRepo from '../../repository/AdministratorRepo';
 import getRandomEmail from '../utils/randomEmail';
 
+beforeEach(async () => {
+  await sequelize.sync();
+});
+
 it('should create an administrator and store it', async () => {
-  await sequelize.sync({ force: true });
+  // await sequelize.sync({ force: true });
 
   const email = getRandomEmail();
 
@@ -29,7 +33,7 @@ it('should create an administrator and store it', async () => {
 });
 
 it('should select an administrator', async () => {
-  await sequelize.sync({ force: true });
+  // await sequelize.sync({ force: true });
 
   const email = getRandomEmail();
 
@@ -52,7 +56,7 @@ it('should select an administrator', async () => {
 });
 
 it('should delete an administrator', async () => {
-  await sequelize.sync({ force: true });
+  // await sequelize.sync({ force: true });
 
   const email = getRandomEmail();
 
@@ -79,7 +83,7 @@ it('should delete an administrator', async () => {
 });
 
 it('should update an administrator', async () => {
-  await sequelize.sync({ force: true });
+  // await sequelize.sync({ force: true });
 
   const email = getRandomEmail();
 
