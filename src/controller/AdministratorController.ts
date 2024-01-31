@@ -15,7 +15,7 @@ declare module 'express-serve-static-core' {
 class AdministratorController {
   async create(req: Request, res: Response) {
     try {
-      if(req.user.id != 1) {
+      if(req.user.email != 'admin@admin.com') {
         throw new Error('You don\'t have permission to do that!');
       }
             
@@ -41,7 +41,7 @@ class AdministratorController {
 
   async update(req: Request, res: Response) {
     try {
-      const id = req.user.id === 1 && typeof req.params.id !== 'undefined' ? parseInt(req.params.id) : req.user.id;
+      const id = req.user.email === 'admin@admin.com' && typeof req.params.id !== 'undefined' ? parseInt(req.params.id) : req.user.id;
       const newAdministrator = new Administrator();
 
       newAdministrator.id = id;
@@ -65,7 +65,7 @@ class AdministratorController {
 
   async delete(req: Request, res: Response) {
     try {
-      const id = req.user.id === 1 && typeof req.params.id !== 'undefined' ? parseInt(req.params.id) : req.user.id;
+      const id = req.user.email === 'admin@admin.com' && typeof req.params.id !== 'undefined' ? parseInt(req.params.id) : req.user.id;
 
       await new AdministratorRepo().delete(id);
 
@@ -83,7 +83,7 @@ class AdministratorController {
 
   async listAll(req: Request, res: Response) {
     try {
-      if(req.user.id != 1) {
+      if(req.user.email != 'admin@admin.com') {
         throw new Error('You don\'t have permission to do that!');
       }
 
