@@ -28,9 +28,9 @@ async function create() {
   await sequelize.sync();
 
   await Administrator.create({
-    name: 'admin',
-    email: 'admin@admin.com',
-    password: 'admin'
+    name: env.OWNER_USER,
+    email: env.OWNER_EMAIL,
+    password: env.OWNER_PASSWORD
   });
 }
 

@@ -2,6 +2,7 @@
 import { Request, Response } from 'express';
 import Administrator from '../models/Administrator';
 import AdministratorRepo from '../repository/AdministratorRepo';
+import env from '../env';
 
 declare module 'express-serve-static-core' {
     interface Request {
@@ -15,7 +16,7 @@ declare module 'express-serve-static-core' {
 class AdministratorController {
   async create(req: Request, res: Response) {
     try {
-      if(req.user.email != 'admin@admin.com') {
+      if(req.user.email != env.OWNER_EMAIL) {
         throw new Error('You don\'t have permission to do that!');
       }
             
@@ -41,7 +42,7 @@ class AdministratorController {
 
   async update(req: Request, res: Response) {
     try {
-      const id = req.user.email === 'admin@admin.com' && typeof req.params.id !== 'undefined' ? parseInt(req.params.id) : req.user.id;
+      const id = req.user.email === env.OWNER_EMAIL && typeof req.params.id !== 'undefined' ? parseInt(req.params.id) : req.user.id;
       const newAdministrator = new Administrator();
 
       newAdministrator.id = id;
@@ -65,7 +66,7 @@ class AdministratorController {
 
   async delete(req: Request, res: Response) {
     try {
-      const id = req.user.email === 'admin@admin.com' && typeof req.params.id !== 'undefined' ? parseInt(req.params.id) : req.user.id;
+      const id = req.user.email === env.OWNER_EMAIL && typeof req.params.id !== 'undefined' ? parseInt(req.params.id) : req.user.id;
 
       await new AdministratorRepo().delete(id);
 
@@ -83,7 +84,7 @@ class AdministratorController {
 
   async listAll(req: Request, res: Response) {
     try {
-      if(req.user.email != 'admin@admin.com') {
+      if(req.user.email != env.OWNER_EMAIL) {
         throw new Error('You don\'t have permission to do that!');
       }
 
@@ -104,7 +105,7 @@ class AdministratorController {
 
   async listById(req: Request, res: Response) {
     try {
-      const id = req.user.id;
+      const id = req.user.email === env.OWNER_EMAIL && typeof req.params.id !== 'undefined' ? parseInt(req.params.id) : req.user.id;
 
       const newAdministrator = await new AdministratorRepo().listById(id);
 
