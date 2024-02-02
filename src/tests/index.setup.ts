@@ -1,5 +1,5 @@
 import express, { Application, Request, Response } from 'express';
-import sequelize from './database.setup';
+import Database from './database.setup';
 import { resolve } from 'path';
 
 import AdministratorRouter from '../router/AdministratorRouter';
@@ -39,7 +39,8 @@ class App {
   }
 
   protected connectDatabase(): void {
-    sequelize.sync();
+    const db = new Database();
+    db.sequelize?.sync();
   }
 }
 

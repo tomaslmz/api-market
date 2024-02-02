@@ -30,6 +30,20 @@ export default class Database {
       models: [Administrator, Tag, Supplier, SupplierPhoto, User]
     });
 
+    const isOwnerExists = await Administrator.findOne({
+      where: {
+        email: env.OWNER_EMAIL
+      }
+    });
+  
+    if(!isOwnerExists) {
+      await Administrator.create({
+        name: env.OWNER_USER,
+        email: env.OWNER_EMAIL,
+        password: env.OWNER_PASSWORD
+      });
+    }
+
     this.sequelize.authenticate().then(() => {
       console.log('Database connection has been established successfully');
     }).catch((err) => {
