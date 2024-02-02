@@ -1,5 +1,5 @@
 import { expect, it } from 'vitest';
-import sequelize from '../database.setup';
+import sequelize from '../sequelize.config';
 import Tag from '../../models/Tag';
 import TagRepo from '../../repository/TagRepo';
 import getRandomColor from '../utils/randomColor';

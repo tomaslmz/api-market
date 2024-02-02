@@ -2,7 +2,6 @@ import { it, describe, expect,  } from 'vitest';
 import request from 'supertest';
 import env from '../env';
 import Administrator from '../../models/Administrator';
-import sequelize from '../database.setup';
 import getRandomName from '../utils/randomName';
 import getRandomEmail from '../utils/randomEmail';
 import app from '../index.setup';
@@ -24,8 +23,6 @@ describe('API Administrator endpoints!', () => {
 
       expect(responseBody.status).toEqual('Created!');
       expect(responseBody.message).toEqual('Successfully administrator created!');
-
-      sequelize.sync();
 
       await Administrator.destroy({
         where: {
