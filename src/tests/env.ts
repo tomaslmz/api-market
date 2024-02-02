@@ -16,7 +16,8 @@ const envSchema = z.object({
   URL:  z.string().url(),
   OWNER_USER: z.string(),
   OWNER_EMAIL: z.string().email(),
-  OWNER_PASSWORD: z.string()
+  OWNER_PASSWORD: z.string(),
+  ADMIN_TEST_TOKEN: z.string(),
 });
 
 const env = envSchema.parse(process.env);
