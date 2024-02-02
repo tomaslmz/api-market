@@ -157,6 +157,8 @@ describe('API Administrator endpoints!', () => {
 
       expect(name).toEqual(data.name);
       expect(email).toEqual(data.email);
+
+      await newAdminstrator.destroy();
     });
   });
 });
