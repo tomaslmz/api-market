@@ -42,4 +42,49 @@ describe('API Administrator endpoints!', () => {
       expect(testAdministrator).toBeNull();
     });
   });
+
+  
+  describe('PATCH /admin/update', () => {
+    it('should update an admin', async () => {
+      const name = getRandomName();
+      const email = getRandomEmail();
+
+      const newAdministrator = await Administrator.create({
+        name,
+        email,
+        password: '24052005'
+      });
+
+      const newName = getRandomName();
+
+      const response = await request(app)
+        .patch(`/api/v1/admin/update/${newAdministrator.id}`)
+        .set('Authorization', `Bearer ${env.ADMIN_TEST_TOKEN}`)
+        .send({ name: newName, email, password: '12345' })
+        .expect(200);
+
+      const updatedAdministrator = await Administrator.findOne({
+        where: {
+          email
+        }
+      });
+
+      expect(updatedAdministrator?.name).toEqual(newName);
+
+      const responseBody = await response.body;
+
+      expect(responseBody.status).toEqual('Updated!');
+      expect(responseBody.message).toEqual('Successfully administrator updated!');
+
+      await updatedAdministrator?.destroy();
+
+      const testAdministrator = await Administrator.findOne({
+        where: {
+          email
+        }
+      });
+
+      expect(testAdministrator).toBeNull();
+    });
+  });
 });
