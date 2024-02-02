@@ -132,4 +132,31 @@ describe('API Administrator endpoints!', () => {
       expect(data).toBeInstanceOf(Object);
     });
   });
+
+  describe('GET /admin/search', () => {
+    it('should get an administrator', async () => {
+      const name = getRandomName();
+      const email = getRandomEmail();
+
+      const newAdminstrator = await Administrator.create({
+        name,
+        email,
+        password: '12345'
+      });
+
+      const response = await request(app)
+        .get(`/api/v1/admin/search/${newAdminstrator.id}`)
+        .set('Authorization', `Bearer ${env.ADMIN_TEST_TOKEN}`)
+        .expect(200);
+
+      const { status, message, data } = response.body;
+
+      expect(status).toEqual('Ok!');
+      expect(message).toEqual('Successfully fetched administrator data!');
+      expect(data).toBeInstanceOf(Object);
+
+      expect(name).toEqual(data.name);
+      expect(email).toEqual(data.email);
+    });
+  });
 });
