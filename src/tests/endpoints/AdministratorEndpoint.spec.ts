@@ -5,7 +5,7 @@ import Administrator from '../../models/Administrator';
 import sequelize from '../database.setup';
 import getRandomName from '../utils/randomName';
 import getRandomEmail from '../utils/randomEmail';
-import app from '../server.setup';
+import app from '../index.setup';
 
 
 describe('API Administrator endpoints!', () => {
