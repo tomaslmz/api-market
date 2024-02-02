@@ -10,7 +10,7 @@ class AdministratorRoutes extends BaseRoutes {
     this.router.patch('/update/:id?', isAdminLogged, validate(updateAdministratorSchema), AdministratorController.update);
     this.router.delete('/delete/:id?', isAdminLogged, AdministratorController.delete);
     this.router.get('/list', isAdminLogged, AdministratorController.listAll);
-    this.router.get('/search/', isAdminLogged, AdministratorController.listById);
+    this.router.get('/search/:id?', isAdminLogged, AdministratorController.listById);
   }
 }
 
