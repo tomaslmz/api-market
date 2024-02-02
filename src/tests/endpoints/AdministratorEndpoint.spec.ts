@@ -43,7 +43,6 @@ describe('API Administrator endpoints!', () => {
     });
   });
 
-  
   describe('PATCH /admin/update', () => {
     it('should update an admin', async () => {
       const name = getRandomName();
@@ -81,6 +80,37 @@ describe('API Administrator endpoints!', () => {
       const testAdministrator = await Administrator.findOne({
         where: {
           email
+        }
+      });
+
+      expect(testAdministrator).toBeNull();
+    });
+  });
+
+  describe('DELETE /admin/delete', () => {
+    it('should delete an administrator', async () => {
+      const name = getRandomName();
+      const email = getRandomEmail();
+
+      const newAdministrator = await Administrator.create({
+        name,
+        email,
+        password: '24052005'
+      });
+      
+      const response = await request(app)
+        .delete(`/api/v1/admin/delete/${newAdministrator.id}`)
+        .set('Authorization', `Bearer ${env.ADMIN_TEST_TOKEN}`)
+        .expect(200);
+
+      const { status, message } = response.body;
+
+      expect(status).toEqual('Deleted!');
+      expect(message).toEqual('Successfully administrator deleted!');
+
+      const testAdministrator = await Administrator.findOne({
+        where: {
+          id: newAdministrator.id
         }
       });
 
