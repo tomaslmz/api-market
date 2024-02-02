@@ -117,4 +117,19 @@ describe('API Administrator endpoints!', () => {
       expect(testAdministrator).toBeNull();
     });
   });
+
+  describe('GET /admin/list', () => {
+    it('should list all admins if its owner', async () => {
+      const response = await request(app)
+        .get('/api/v1/admin/list')
+        .set('Authorization', `Bearer ${env.ADMIN_TEST_TOKEN}`)
+        .expect(200);
+
+      const { status, message, data } = response.body;
+
+      expect(status).toEqual('Ok!');
+      expect(message).toEqual('Successfully fetched administrator data!');
+      expect(data).toBeInstanceOf(Object);
+    });
+  });
 });
