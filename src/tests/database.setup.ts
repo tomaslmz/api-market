@@ -7,21 +7,48 @@ import Supplier from '../models/Supplier';
 import SupplierPhoto from '../models/SupplierPhoto';
 import User from '../models/User';
 
-const POSTGRES_DB = env.TEST_POSTGRES_DB;
-const POSTGRES_HOST = env.POSTGRES_HOST;
-const POSTGRES_PORT = env.POSTGRES_PORT;
-const POSTGRES_USER = env.POSTGRES_USER;
-const POSTGRES_PASSWORD = env.POSTGRES_PASSWORD;
+export default class Database {
+  public sequelize: Sequelize | undefined;
 
-const sequelize = new Sequelize({
-  database: POSTGRES_DB,
-  username: POSTGRES_USER,
-  password: POSTGRES_PASSWORD,
-  port: parseInt(POSTGRES_PORT),
-  host: POSTGRES_HOST,
-  dialect: 'postgres',
-  models: [Administrator, Tag, Supplier, SupplierPhoto, User],
-  logging: false
-});
+  private POSTGRES_DB = env.TEST_POSTGRES_DB;
+  private POSTGRES_HOST = env.POSTGRES_HOST;
+  private POSTGRES_PORT = env.POSTGRES_PORT;
+  private POSTGRES_USER = env.POSTGRES_USER;
+  private POSTGRES_PASSWORD = env.POSTGRES_PASSWORD;
 
-export default sequelize;
+  constructor() {
+    this.connect();
+  }
+
+  private async connect() {
+    this.sequelize = new Sequelize({
+      database: this.POSTGRES_DB,
+      username: this.POSTGRES_USER,
+      password: this.POSTGRES_PASSWORD,
+      port: parseInt(this.POSTGRES_PORT),
+      host: this.POSTGRES_HOST,
+      dialect: 'postgres',
+      models: [Administrator, Tag, Supplier, SupplierPhoto, User]
+    });
+
+    const isOwnerExists = await Administrator.findOne({
+      where: {
+        email: env.OWNER_EMAIL
+      }
+    });
+  
+    if(!isOwnerExists) {
+      await Administrator.create({
+        name: env.OWNER_USER,
+        email: env.OWNER_EMAIL,
+        password: env.OWNER_PASSWORD
+      });
+    }
+
+    this.sequelize.authenticate().then(() => {
+      console.log('Database connection has been established successfully');
+    }).catch((err) => {
+      console.log(err);
+    });
+  }
+}
