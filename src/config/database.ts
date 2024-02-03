@@ -1,9 +1,8 @@
 import { Sequelize } from 'sequelize-typescript';
-import Administrator from '../models/Administrator';
 import env from '../env';
 import Tag from '../models/Tag';
-import Supplier from '../models/Supplier';
-import SupplierPhoto from '../models/SupplierPhoto';
+import UserPhoto from '../models/UserPhoto';
+import LevelAccess from '../models/LevelAccess';
 import User from '../models/User';
 
 export default class Database {
@@ -27,7 +26,7 @@ export default class Database {
       port: parseInt(this.POSTGRES_PORT),
       host: this.POSTGRES_HOST,
       dialect: 'postgres',
-      models: [Administrator, Tag, Supplier, SupplierPhoto, User]
+      models: [Tag, UserPhoto, LevelAccess, User]
     });
 
     this.sequelize.authenticate().then(() => {
@@ -37,18 +36,28 @@ export default class Database {
     });
   }
 
-  public async verifyOwner() {
-    const isOwnerExists = await Administrator.findOne({
-      where: {
-        email: env.OWNER_EMAIL
-      }
-    });
+  public async verifyLevelAccess() {
+    const levelAccess = await LevelAccess.findAll();
 
-    if(!isOwnerExists) {
-      await Administrator.create({
-        name: env.OWNER_USER,
-        email: env.OWNER_EMAIL,
-        password: env.OWNER_PASSWORD
+    if(levelAccess.length === 0) {
+      await LevelAccess.create({
+        id: 1,
+        name: 'Owner'
+      });
+
+      await LevelAccess.create({
+        id: 2,
+        name: 'Administrator'
+      });
+
+      await LevelAccess.create({
+        id: 3,
+        name: 'Supplier'
+      });
+
+      await LevelAccess.create({
+        id: 4,
+        name: 'User'
       });
     }
   }
