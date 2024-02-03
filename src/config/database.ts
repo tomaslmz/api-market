@@ -30,12 +30,20 @@ export default class Database {
       models: [Administrator, Tag, Supplier, SupplierPhoto, User]
     });
 
+    this.sequelize.authenticate().then(() => {
+      console.log('Database connection has been established successfully');
+    }).catch((err) => {
+      console.log(err);
+    });
+  }
+
+  public async verifyOwner() {
     const isOwnerExists = await Administrator.findOne({
       where: {
         email: env.OWNER_EMAIL
       }
     });
-  
+
     if(!isOwnerExists) {
       await Administrator.create({
         name: env.OWNER_USER,
@@ -43,11 +51,5 @@ export default class Database {
         password: env.OWNER_PASSWORD
       });
     }
-
-    this.sequelize.authenticate().then(() => {
-      console.log('Database connection has been established successfully');
-    }).catch((err) => {
-      console.log(err);
-    });
   }
 }

@@ -41,6 +41,7 @@ class App {
   protected connectDatabase(): void {
     const db = new Database();
     db.sequelize?.sync();
+    db.verifyOwner();
   }
 }
 
