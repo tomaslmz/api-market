@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
-import SupplierPhotoRepo from '../repository/SupplierPhotoRepo';
-import SupplierPhoto from '../models/SupplierPhoto';
+import UserPhotoRepo from '../repository/UserPhotoRepo';
+import UserPhoto from '../models/UserPhoto';
 import fs from 'fs';
 
 class SupplierPhotoController {
@@ -10,13 +10,13 @@ class SupplierPhotoController {
         throw new Error('Photo not found!');
       }
 
-      const newSupplierPhoto = new SupplierPhoto();
+      const newSupplierPhoto = new UserPhoto();
 
       newSupplierPhoto.originalName = req.file.originalname;
       newSupplierPhoto.filename = req.file.filename;
-      newSupplierPhoto.supplier_id = req.user.id;
+      newSupplierPhoto.user_id = req.user.id;
 
-      await new SupplierPhotoRepo().save(newSupplierPhoto);
+      await new UserPhotoRepo().save(newSupplierPhoto);
 
       res.status(200).json({
         status: 'Uploaded!',
@@ -32,15 +32,15 @@ class SupplierPhotoController {
 
   async delete(req: Request, res: Response) {
     try {
-      const newSupplierPhoto = await SupplierPhoto.findOne({
+      const newUserPhoto = await UserPhoto.findOne({
         where: {
           id: req.user.id
         }
       });
 
-      await new SupplierPhotoRepo().delete(req.user.id);
+      await new UserPhotoRepo().delete(req.user.id);
 
-      fs.unlink(`./uploads/images/${newSupplierPhoto?.filename}`, (e) => console.log(e));
+      fs.unlink(`./uploads/images/${newUserPhoto?.filename}`, (e) => console.log(e));
       res.status(200).json({
         status: 'Deleted!',
         message: 'This photo has been deleted successfully!'
