@@ -18,6 +18,7 @@ const envSchema = z.object({
   OWNER_EMAIL: z.string().email(),
   OWNER_PASSWORD: z.string(),
   ADMIN_TEST_TOKEN: z.string(),
+  SUPPLIER_TEST_TOKEN: z.string()
 });
 
 const env = envSchema.parse(process.env);
