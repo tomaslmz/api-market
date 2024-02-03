@@ -7,7 +7,7 @@ import User from './User';
 })
 
 export default class UserPhoto extends Model {
-  public static USER_PHOTO_TABLE_NAME = 'SuppliersPhotos' as string;
+  public static USER_PHOTO_TABLE_NAME = 'UsersPhotos' as string;
   public static USER_PHOTO_ID = 'id' as string;
   public static USER_PHOTO_ORIGINAL_NAME = 'original_name' as string;
   public static USER_PHOTO_FILENAME = 'filename' as string;
