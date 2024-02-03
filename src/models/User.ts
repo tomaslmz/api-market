@@ -1,5 +1,7 @@
 import { compare, hash } from 'bcrypt';
-import { DataType, Model, Table, Column, BeforeCreate, BeforeUpdate } from 'sequelize-typescript';
+import { DataType, Model, Table, Column, BeforeCreate, BeforeUpdate, HasOne, BelongsTo } from 'sequelize-typescript';
+import UserPhoto from './UserPhoto';
+import LevelAccess from './LevelAccess';
 
 @Table({
   tableName: User.USER_TABLE_NAME
@@ -12,6 +14,7 @@ export default class User extends Model {
   public static USER_EMAIL = 'email' as string;
   public static USER_PASSWORD = 'password' as string;
   public static USER_BALANCE = 'balance' as string;
+  public static USER_LEVEL_ACCESS_ID = 'level_access_id' as string;
 
   @Column({
     type: DataType.INTEGER,
@@ -55,4 +58,10 @@ export default class User extends Model {
   async comparePassword(password: string) {
     return await compare(password, this.password);
   }
+
+  @HasOne(() => UserPhoto, { foreignKey: 'user_id', as: 'photo' })
+    photo?: UserPhoto;
+
+  @BelongsTo(() => LevelAccess, { foreignKey: User.USER_LEVEL_ACCESS_ID, targetKey: LevelAccess.LEVEL_ACCESS_ID })
+    levelAccess!: LevelAccess;
 }
