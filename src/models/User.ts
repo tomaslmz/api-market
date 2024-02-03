@@ -47,6 +47,12 @@ export default class User extends Model {
     field: User.USER_BALANCE
   }) balance!: number;
 
+  @Column({
+    type: DataType.INTEGER,
+    defaultValue: 4,
+    field: User.USER_LEVEL_ACCESS
+  }) level_access!: number;
+
   @BeforeCreate
   @BeforeUpdate
   static async hashPassword(instance: User) {
