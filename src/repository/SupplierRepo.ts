@@ -1,32 +1,34 @@
-import Supplier from '../models/Supplier';
-import SupplierPhoto from '../models/SupplierPhoto';
+import User from '../models/User';
+import UserPhoto from '../models/UserPhoto';
 
 interface ISupplierRepo {
-  save(supplier: Supplier): Promise<void>;
-  update(supplier: Supplier): Promise<void>;
+  save(supplier: User): Promise<void>;
+  update(supplier: User): Promise<void>;
   delete(id: number): Promise<void>;
-  listAll(): Promise<Supplier[]>;
-  listById(id: number): Promise<Supplier>;
+  listAll(): Promise<User[]>;
+  listById(id: number): Promise<User>;
 }
 
 export default class SupplierRepo implements ISupplierRepo {
-  async save(supplier: Supplier): Promise<void> {
+  async save(supplier: User): Promise<void> {
     try {
-      await Supplier.create({
+      await User.create({
         name: supplier.name,
         email: supplier.email,
-        password: supplier.password
+        password: supplier.password,
+        level_access: 3
       });
     } catch(err: any) {
       throw new Error(`Failed to create a supplier! ${err}`);
     }
   }
 
-  async update(supplier: Supplier): Promise<void> {
+  async update(supplier: User): Promise<void> {
     try {
-      const newSupplier = await Supplier.findOne({
+      const newSupplier = await User.findOne({
         where: {
-          id: supplier.id
+          id: supplier.id,
+          level_access: 3
         }
       });
 
@@ -49,9 +51,10 @@ export default class SupplierRepo implements ISupplierRepo {
 
   async delete(id: number): Promise<void> {
     try {
-      const newSupplier = await Supplier.findOne({
+      const newSupplier = await User.findOne({
         where: {
-          id
+          id,
+          level_access: 3
         }
       });
 
@@ -65,11 +68,14 @@ export default class SupplierRepo implements ISupplierRepo {
     }
   }
 
-  async listAll(): Promise<Supplier[]> {
+  async listAll(): Promise<User[]> {
     try {
-      const Suppliers = await Supplier.findAll({
+      const Suppliers = await User.findAll({
+        where: {
+          level_access: 3
+        },
         include: {
-          model: SupplierPhoto,
+          model: UserPhoto,
           as: 'photo',
         }
       });
@@ -80,11 +86,12 @@ export default class SupplierRepo implements ISupplierRepo {
     }
   }
 
-  async listById(id: number): Promise<Supplier> {
+  async listById(id: number): Promise<User> {
     try {
-      const supplier = await Supplier.findOne({
+      const supplier = await User.findOne({
         where: {
-          id
+          id,
+          leve_access: 3
         }
       });
 
