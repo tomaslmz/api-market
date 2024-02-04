@@ -13,7 +13,7 @@ class SupplierController {
       newSupplier.email = req.body.email;
       newSupplier.password = req.body.password;
 
-      new SupplierRepo().save(newSupplier);
+      await new SupplierRepo().save(newSupplier);
 
       res.status(200).json({
         status: 'Created!',
@@ -41,7 +41,7 @@ class SupplierController {
       newSupplier.email = req.body.email;
       newSupplier.password = req.body.password;
 
-      new SupplierRepo().update(newSupplier);
+      await new SupplierRepo().update(newSupplier);
 
       res.status(200).json({
         status: 'Updated!',
@@ -63,6 +63,11 @@ class SupplierController {
       const id = level_access <= 2 ? parseInt(req.params.id) : req.user.id;
 
       await new SupplierRepo().delete(id);
+
+      res.status(200).json({
+        status: 'Deleted!',
+        message: 'This supplier has been deleted successfully!'
+      });
     } catch(err: any) {
       res.status(500).json({
         status: 'Internal server error!',
