@@ -1,5 +1,5 @@
 import express, { Application, Request, Response } from 'express';
-import Database from './database.setup';
+import Database from './database/database.setup';
 import { resolve } from 'path';
 
 import AdministratorRouter from '../router/AdministratorRouter';

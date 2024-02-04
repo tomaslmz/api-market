@@ -1,5 +1,5 @@
 import { expect, it, beforeEach } from 'vitest';
-import sequelize from '../sequelize.config';
+import sequelize from '../database/sequelize.config';
 import User from '../../models/User';
 import SupplierRepo from '../../repository/SupplierRepo';
 import getRandomEmail from '../utils/randomEmail';

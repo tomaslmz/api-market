@@ -1,10 +1,10 @@
 import { Sequelize } from 'sequelize-typescript';
 
-import Tag from '../models/Tag';
-import User from '../models/User';
-import UserPhoto from '../models/UserPhoto';
+import Tag from '../../models/Tag';
+import User from '../../models/User';
+import UserPhoto from '../../models/UserPhoto';
 
-import env from './env';
+import env from '../envTest';
 
 const POSTGRES_DB = env.TEST_POSTGRES_DB;
 const POSTGRES_HOST = env.POSTGRES_HOST;

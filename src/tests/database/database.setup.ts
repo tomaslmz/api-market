@@ -1,9 +1,9 @@
 import { Sequelize } from 'sequelize-typescript';
-import env from './env';
+import env from '../envTest';
 
-import Tag from '../models/Tag';
-import User from '../models/User';
-import UserPhoto from '../models/UserPhoto';
+import Tag from '../../models/Tag';
+import User from '../../models/User';
+import UserPhoto from '../../models/UserPhoto';
 
 export default class Database {
   public sequelize: Sequelize | undefined;
