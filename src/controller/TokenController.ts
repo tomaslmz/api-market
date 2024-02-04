@@ -9,7 +9,8 @@ declare module 'express-serve-static-core' {
     interface Request {
       user: {
         id: number,
-        email: string
+        email: string,
+        token: string
       }
     }
   }
@@ -42,11 +43,11 @@ class TokenController {
       const { id, level_access } = newUser;
       const passwordHash = newUser.password;
 
-      const token = jwt.sign({ id, email, passwordHash, level_access }, env.USER_TOKEN, {
+      const token = jwt.sign({ id, email, passwordHash, level_access }, env.SECRET_TOKEN, {
         expiresIn: env.TOKEN_EXPIRATION
       });
 
-      req.user = { id, email };
+      req.user = { id, email, token };
 
       return res.json({ 
         status: 'Ok!',

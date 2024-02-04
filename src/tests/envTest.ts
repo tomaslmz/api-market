@@ -11,7 +11,7 @@ const envSchema = z.object({
   POSTGRES_PASSWORD: z.string(),
   TOKEN_EXPIRATION: z.string(),
   ADMIN_TOKEN: z.string(),
-  USER_TOKEN: z.string(),
+  SECRET_TOKEN: z.string(),
   SUPPLIER_TOKEN: z.string(),
   URL:  z.string().url(),
 });
