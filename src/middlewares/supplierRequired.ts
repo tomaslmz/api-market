@@ -3,7 +3,7 @@ import jwt, { JwtPayload } from 'jsonwebtoken';
 import User from '../models/User';
 import env from '../env';
 
-export const isAdmin = (req: Request, res: Response, next: NextFunction) => {
+export const isSupplier = (req: Request, res: Response, next: NextFunction) => {
   try {
     const email = req.user.email;
 
@@ -15,19 +15,19 @@ export const isAdmin = (req: Request, res: Response, next: NextFunction) => {
 
     const { level_access } = data;
 
-    if(level_access > 2) {
+    if(level_access > 3) {
       throw new Error('You don\'t have permission to access that!');
     }
 
-    const newAdministrator = User.findOne({
+    const newSupplier = User.findOne({
       where: {
         email,
         level_access
       }
     });
 
-    if(!newAdministrator) {
-      throw new Error('Invalid administrator!');
+    if(!newSupplier) {
+      throw new Error('Invalid supplier!');
     }
 
     next();
@@ -39,4 +39,4 @@ export const isAdmin = (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
-export default isAdmin;
+export default isSupplier;

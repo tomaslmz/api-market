@@ -1,11 +1,9 @@
 import { Sequelize } from 'sequelize-typescript';
-import env from './env';
+import env from '../envTest';
 
-import Administrator from '../models/Administrator';
-import Tag from '../models/Tag';
-import Supplier from '../models/Supplier';
-import SupplierPhoto from '../models/SupplierPhoto';
-import User from '../models/User';
+import Tag from '../../models/Tag';
+import User from '../../models/User';
+import UserPhoto from '../../models/UserPhoto';
 
 export default class Database {
   public sequelize: Sequelize | undefined;
@@ -28,7 +26,8 @@ export default class Database {
       port: parseInt(this.POSTGRES_PORT),
       host: this.POSTGRES_HOST,
       dialect: 'postgres',
-      models: [Administrator, Tag, Supplier, SupplierPhoto, User]
+      models: [Tag, UserPhoto, User],
+      logging: false
     });
 
     this.sequelize.authenticate().then(() => {
@@ -38,18 +37,19 @@ export default class Database {
     });
   }
 
-  public async verifyOwner() {
-    const isOwnerExists = await Administrator.findOne({
+  public async createTestAdmin() {
+    const isOwnerTestExists = await User.findOne({
       where: {
-        email: env.OWNER_EMAIL
+        email: 'test@owner.com'
       }
     });
 
-    if(!isOwnerExists) {
-      await Administrator.create({
-        name: env.OWNER_USER,
-        email: env.OWNER_EMAIL,
-        password: env.OWNER_PASSWORD
+    if(!isOwnerTestExists) {
+      await User.create({
+        name: 'test',
+        email: 'test@owner.com',
+        password: 'test',
+        level_access: 1
       });
     }
   }

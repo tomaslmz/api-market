@@ -1,6 +1,6 @@
 import { expect, it, beforeEach } from 'vitest';
-import sequelize from '../sequelize.config';
-import Administrator from '../../models/Administrator';
+import sequelize from '../database/sequelize.config';
+import User from '../../models/User';
 import AdministratorRepo from '../../repository/AdministratorRepo';
 import getRandomEmail from '../utils/randomEmail';
 
@@ -11,21 +11,22 @@ beforeEach(async () => {
 it('should create an administrator and store it', async () => {
   const email = getRandomEmail();
 
-  const newAdministrator = new Administrator({
+  const newAdministrator = new User({
     name: 'test',
     email,
     password: 'test'
   });
 
-  expect(newAdministrator).toBeInstanceOf(Administrator);
+  expect(newAdministrator).toBeInstanceOf(User);
   expect(newAdministrator.name).toEqual('test');
   expect(newAdministrator.email).toEqual(email);
 
   await new AdministratorRepo().save(newAdministrator);
 
-  await Administrator.destroy({
+  await User.destroy({
     where: {
-      email
+      email,
+      level_access: 2
     }
   });
 });
@@ -33,10 +34,11 @@ it('should create an administrator and store it', async () => {
 it('should select an administrator', async () => {
   const email = getRandomEmail();
 
-  const testAdministrator = await Administrator.create({
+  const testAdministrator = await User.create({
     name: 'test',
     email,
-    password: 'test'
+    password: 'test',
+    level_access: 2
   });
 
   expect(testAdministrator.name).toEqual('test');
@@ -44,7 +46,7 @@ it('should select an administrator', async () => {
 
   const newAdministrator = await new AdministratorRepo().listById(testAdministrator.id);
 
-  expect(newAdministrator).toBeInstanceOf(Administrator);
+  expect(newAdministrator).toBeInstanceOf(User);
   expect(newAdministrator.name).toEqual('test');
   expect(newAdministrator.email).toEqual(email);
 
@@ -54,20 +56,21 @@ it('should select an administrator', async () => {
 it('should delete an administrator', async () => {
   const email = getRandomEmail();
 
-  const newAdministrator = await Administrator.create({
+  const newAdministrator = await User.create({
     name: 'test',
     email,
-    password: 'test'
+    password: 'test',
+    level_access: 2
   });
 
   expect(newAdministrator.name).toEqual('test');
   expect(newAdministrator.email).toEqual(email);
 
-  expect(newAdministrator).toBeInstanceOf(Administrator);
+  expect(newAdministrator).toBeInstanceOf(User);
 
   await new AdministratorRepo().delete(newAdministrator.id);
 
-  const testAdministrator = await Administrator.findOne({
+  const testAdministrator = await User.findOne({
     where: {
       email
     }
@@ -79,35 +82,37 @@ it('should delete an administrator', async () => {
 it('should update an administrator', async () => {
   const email = getRandomEmail();
 
-  const newAdministrator = await Administrator.create({
+  const newAdministrator = await User.create({
     name: 'test',
     email,
-    password: 'test'
+    password: 'test',
+    level_access: 2
   });
 
   expect(newAdministrator.name).toEqual('test');
   expect(newAdministrator.email).toEqual(email);
 
-  expect(newAdministrator).toBeInstanceOf(Administrator);
+  expect(newAdministrator).toBeInstanceOf(User);
 
   const newEmail = getRandomEmail();
 
-  const updatedAdministrator = new Administrator({
+  const updatedAdministrator = new User({
     id: newAdministrator.id,
     name: 'test2',
     email: newEmail,
-    password: 'test'
+    password: 'test',
+    level_access: 2
   });
 
   await new AdministratorRepo().update(updatedAdministrator);
 
-  const testAdministrator = await Administrator.findOne({
+  const testAdministrator = await User.findOne({
     where: {
       email: newEmail
     }
   });
 
-  expect(testAdministrator).toBeInstanceOf(Administrator);
+  expect(testAdministrator).toBeInstanceOf(User);
   
   if(testAdministrator) {
     expect(testAdministrator.name).toEqual('test2');

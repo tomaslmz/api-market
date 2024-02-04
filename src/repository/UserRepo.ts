@@ -14,8 +14,10 @@ export default class UserRepo implements iUserRepo {
       await User.create({
         name: user.name,
         email: user.email,
-        password: user.password
+        password: user.password,
+        level_access: 4
       });
+
     } catch(err: any) {
       throw new Error(`Failed to create this user! ${err}`);
     }
@@ -25,7 +27,8 @@ export default class UserRepo implements iUserRepo {
     try {
       const newUser = await User.findOne({
         where: {
-          id: user.id
+          id: user.id,
+          level_access: 4
         }
       });
 
@@ -48,7 +51,8 @@ export default class UserRepo implements iUserRepo {
     try {
       const newUser = await User.findOne({
         where: {
-          id
+          id,
+          level_access: 4
         }
       });
 
@@ -64,7 +68,11 @@ export default class UserRepo implements iUserRepo {
 
   async listAll(): Promise<User[]> {
     try {
-      return await User.findAll();
+      return await User.findAll({
+        where: {
+          level_access: 4
+        }
+      });
     } catch(err: any) {
       throw new Error(`Failed to list all users! ${err}`);
     }
@@ -74,7 +82,8 @@ export default class UserRepo implements iUserRepo {
     try {
       const newUser = await User.findOne({
         where: {
-          id
+          id,
+          level_access: 4
         }
       });
 

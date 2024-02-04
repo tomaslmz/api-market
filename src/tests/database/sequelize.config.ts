@@ -1,12 +1,10 @@
 import { Sequelize } from 'sequelize-typescript';
 
-import Administrator from '../models/Administrator';
-import Tag from '../models/Tag';
-import Supplier from '../models/Supplier';
-import SupplierPhoto from '../models/SupplierPhoto';
-import User from '../models/User';
+import Tag from '../../models/Tag';
+import User from '../../models/User';
+import UserPhoto from '../../models/UserPhoto';
 
-import env from './env';
+import env from '../envTest';
 
 const POSTGRES_DB = env.TEST_POSTGRES_DB;
 const POSTGRES_HOST = env.POSTGRES_HOST;
@@ -21,7 +19,7 @@ const sequelize = new Sequelize({
   port: parseInt(POSTGRES_PORT),
   host: POSTGRES_HOST,
   dialect: 'postgres',
-  models: [Administrator, Tag, Supplier, SupplierPhoto, User],
+  models: [UserPhoto, Tag, User],
   logging: false
 });
 

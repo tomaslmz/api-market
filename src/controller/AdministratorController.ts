@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Request, Response } from 'express';
-import Administrator from '../models/Administrator';
+import User from '../models/User';
+import jwt, { JwtPayload } from 'jsonwebtoken';
 import AdministratorRepo from '../repository/AdministratorRepo';
 import env from '../env';
 
@@ -8,7 +9,8 @@ declare module 'express-serve-static-core' {
     interface Request {
       user: {
         id: number,
-        email: string
+        email: string,
+        token: string
       }
     }
   }
@@ -16,15 +18,12 @@ declare module 'express-serve-static-core' {
 class AdministratorController {
   async create(req: Request, res: Response) {
     try {
-      if(req.user.email != env.OWNER_EMAIL) {
-        throw new Error('You don\'t have permission to do that!');
-      }
-            
-      const newAdministrator = new Administrator();
-
-      newAdministrator.name = req.body.name;
-      newAdministrator.email = req.body.email;
-      newAdministrator.password = req.body.password;
+    
+      const newAdministrator = new User({
+        name: req.body.name,
+        email: req.body.email,
+        password: req.body.password
+      });
 
       await new AdministratorRepo().save(newAdministrator);
 
@@ -42,13 +41,17 @@ class AdministratorController {
 
   async update(req: Request, res: Response) {
     try {
-      const id = req.user.email === env.OWNER_EMAIL && typeof req.params.id !== 'undefined' ? parseInt(req.params.id) : req.user.id;
-      const newAdministrator = new Administrator();
+      const data = jwt.verify(req.user.token, env.USER_TOKEN) as JwtPayload;
+      const { level_access } = data;
 
-      newAdministrator.id = id;
-      newAdministrator.name = req.body.name;
-      newAdministrator.email = req.body.email;
-      newAdministrator.password = req.body.password;
+      const id = level_access == 1 ? parseInt(req.params.id) : req.user.id;
+      
+      const newAdministrator = new User({
+        id,
+        name: req.body.name,
+        email: req.body.email,
+        password: req.body.password
+      });
 
       await new AdministratorRepo().update(newAdministrator);
 
@@ -66,7 +69,10 @@ class AdministratorController {
 
   async delete(req: Request, res: Response) {
     try {
-      const id = req.user.email === env.OWNER_EMAIL && typeof req.params.id !== 'undefined' ? parseInt(req.params.id) : req.user.id;
+      const data = jwt.verify(req.user.token, env.USER_TOKEN) as JwtPayload;
+      const { level_access } = data;
+
+      const id = level_access == 1 ? parseInt(req.params.id) : req.user.id;
 
       await new AdministratorRepo().delete(id);
 
@@ -84,10 +90,6 @@ class AdministratorController {
 
   async listAll(req: Request, res: Response) {
     try {
-      if(req.user.email != env.OWNER_EMAIL) {
-        throw new Error('You don\'t have permission to do that!');
-      }
-
       const Administrators = await new AdministratorRepo().listAll();
 
       res.status(200).json({
@@ -105,7 +107,10 @@ class AdministratorController {
 
   async listById(req: Request, res: Response) {
     try {
-      const id = req.user.email === env.OWNER_EMAIL && typeof req.params.id !== 'undefined' ? parseInt(req.params.id) : req.user.id;
+      const data = jwt.verify(req.user.token, env.USER_TOKEN) as JwtPayload;
+      const { level_access } = data;
+
+      const id = level_access == 1 ? parseInt(req.params.id) : req.user.id;
 
       const newAdministrator = await new AdministratorRepo().listById(id);
 

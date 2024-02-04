@@ -1,17 +1,17 @@
-import SupplierPhoto from '../models/SupplierPhoto';
+import UserPhoto from '../models/UserPhoto';
 
 interface ISupplierPhotoRepo {
-  save(supplierPhoto: SupplierPhoto): Promise<void>;
+  save(userPhoto: UserPhoto): Promise<void>;
   delete(id: number): Promise<void>;
 }
 
 export default class SupplierPhotoRepo implements ISupplierPhotoRepo {
-  async save(supplierPhoto: SupplierPhoto) {
+  async save(userPhoto: UserPhoto) {
     try {
-      await SupplierPhoto.create({
-        originalName: supplierPhoto.originalName,
-        filename: supplierPhoto.filename,
-        supplier_id: supplierPhoto.supplier_id
+      await UserPhoto.create({
+        originalName: userPhoto.originalName,
+        filename: userPhoto.filename,
+        user_id: userPhoto.user_id
       });
     } catch(err: any) {
       throw new Error(`Failed to upload this supplier photo! ${err}`);
@@ -20,17 +20,17 @@ export default class SupplierPhotoRepo implements ISupplierPhotoRepo {
 
   async delete(id: number) {
     try {
-      const newSupplierPhoto = await SupplierPhoto.findOne({
+      const newUserPhoto = await UserPhoto.findOne({
         where: {
           id
         }
       });
 
-      if(!newSupplierPhoto) {
+      if(!newUserPhoto) {
         throw new Error('Supplier photo not found!');
       }
 
-      newSupplierPhoto.destroy();
+      newUserPhoto.destroy();
     } catch(err: any) {
       throw new Error(`Failed to delete this photo! ${err}`);
     }

@@ -6,6 +6,7 @@
   "scripts": {
     "test": "npx vitest",
     "start:dev": "npx ts-node ./src/index.ts",
+    "start:test": "npx ts-node ./src/tests/server.setup.ts",
     "create:admin": "npx ts-node ./src/database/seeder/createFirstAdmin.ts",
     "create:admin:test": "npx ts-node ./src/database/seeder/createFirstAdminTest.ts"
   },

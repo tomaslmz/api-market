@@ -1,21 +1,22 @@
 import { it, describe, expect,  } from 'vitest';
 import request from 'supertest';
-import env from '../env';
-import Administrator from '../../models/Administrator';
+import getToken from '../utils/getToken';
 import getRandomName from '../utils/randomName';
+import User from '../../models/User';
 import getRandomEmail from '../utils/randomEmail';
 import app from '../index.setup';
 
-
-describe('API Administrator endpoints!', () => {
+describe('API Administrator endpoints!', async () => {
+  const token = await getToken('test@owner.com', 'test');
   describe('POST /admin/create', () => {
     it('should create an admin', async () => {
+
       const name = getRandomName();
       const email = getRandomEmail();
 
       const response = await request(app)
         .post('/api/v1/admin/create')
-        .set('Authorization', `Bearer ${env.ADMIN_TEST_TOKEN}`)
+        .set('Authorization', `Bearer ${token}`)
         .send({ name: name, email: email, password: '12345' })
         .expect(200);
 
@@ -24,15 +25,17 @@ describe('API Administrator endpoints!', () => {
       expect(responseBody.status).toEqual('Created!');
       expect(responseBody.message).toEqual('Successfully administrator created!');
 
-      await Administrator.destroy({
+      await User.destroy({
         where: {
-          email
+          email,
+          level_access: 2
         }
       });
 
-      const testAdministrator = await Administrator.findOne({
+      const testAdministrator = await User.findOne({
         where: {
-          email
+          email,
+          level_access: 2
         }
       });
 
@@ -45,23 +48,25 @@ describe('API Administrator endpoints!', () => {
       const name = getRandomName();
       const email = getRandomEmail();
 
-      const newAdministrator = await Administrator.create({
+      const newAdministrator = await User.create({
         name,
         email,
-        password: '24052005'
+        password: '24052005',
+        level_access: 2
       });
 
       const newName = getRandomName();
 
       const response = await request(app)
         .patch(`/api/v1/admin/update/${newAdministrator.id}`)
-        .set('Authorization', `Bearer ${env.ADMIN_TEST_TOKEN}`)
+        .set('Authorization', `Bearer ${token}`)
         .send({ name: newName, email, password: '12345' })
         .expect(200);
 
-      const updatedAdministrator = await Administrator.findOne({
+      const updatedAdministrator = await User.findOne({
         where: {
-          email
+          email,
+          level_access: 2
         }
       });
 
@@ -74,9 +79,10 @@ describe('API Administrator endpoints!', () => {
 
       await updatedAdministrator?.destroy();
 
-      const testAdministrator = await Administrator.findOne({
+      const testAdministrator = await User.findOne({
         where: {
-          email
+          email,
+          level_access: 2
         }
       });
 
@@ -89,15 +95,16 @@ describe('API Administrator endpoints!', () => {
       const name = getRandomName();
       const email = getRandomEmail();
 
-      const newAdministrator = await Administrator.create({
+      const newAdministrator = await User.create({
         name,
         email,
-        password: '24052005'
+        password: '24052005',
+        level_access: 2
       });
       
       const response = await request(app)
         .delete(`/api/v1/admin/delete/${newAdministrator.id}`)
-        .set('Authorization', `Bearer ${env.ADMIN_TEST_TOKEN}`)
+        .set('Authorization', `Bearer ${token}`)
         .expect(200);
 
       const { status, message } = response.body;
@@ -105,9 +112,10 @@ describe('API Administrator endpoints!', () => {
       expect(status).toEqual('Deleted!');
       expect(message).toEqual('Successfully administrator deleted!');
 
-      const testAdministrator = await Administrator.findOne({
+      const testAdministrator = await User.findOne({
         where: {
-          id: newAdministrator.id
+          id: newAdministrator.id,
+          level_access: 2
         }
       });
 
@@ -117,9 +125,10 @@ describe('API Administrator endpoints!', () => {
 
   describe('GET /admin/list', () => {
     it('should list all admins if its owner', async () => {
+
       const response = await request(app)
         .get('/api/v1/admin/list')
-        .set('Authorization', `Bearer ${env.ADMIN_TEST_TOKEN}`)
+        .set('Authorization', `Bearer ${token}`)
         .expect(200);
 
       const { status, message, data } = response.body;
@@ -135,15 +144,16 @@ describe('API Administrator endpoints!', () => {
       const name = getRandomName();
       const email = getRandomEmail();
 
-      const newAdminstrator = await Administrator.create({
+      const newAdminstrator = await User.create({
         name,
         email,
-        password: '12345'
+        password: '12345',
+        level_access: 2
       });
 
       const response = await request(app)
         .get(`/api/v1/admin/search/${newAdminstrator.id}`)
-        .set('Authorization', `Bearer ${env.ADMIN_TEST_TOKEN}`)
+        .set('Authorization', `Bearer ${token}`)
         .expect(200);
 
       const { status, message, data } = response.body;

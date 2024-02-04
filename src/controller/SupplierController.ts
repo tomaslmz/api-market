@@ -1,11 +1,11 @@
 import { Request, Response } from 'express';
 import SupplierRepo from '../repository/SupplierRepo';
-import Supplier from '../models/Supplier';
+import User from '../models/User';
 
 class SupplierController {
   async create(req: Request, res: Response) {
     try {
-      const newSupplier = new Supplier();
+      const newSupplier = new User();
 
       newSupplier.name = req.body.name;
       newSupplier.email = req.body.email;
@@ -27,7 +27,7 @@ class SupplierController {
 
   async update(req: Request, res: Response) {
     try {
-      const newSupplier = new Supplier();
+      const newSupplier = new User();
 
       newSupplier.id = req.user.id;
       newSupplier.name = req.body.name;

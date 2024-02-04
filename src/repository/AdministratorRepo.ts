@@ -1,21 +1,23 @@
-import Administrator from '../models/Administrator';
+import User from '../models/User';
 import Sequelize from 'sequelize';
+import UserPhoto from '../models/UserPhoto';
 
 interface IAdministratorRepo {
-    save(admin: Administrator): Promise<void>;
-    update(admin: Administrator): Promise<void>
+    save(admin: User): Promise<void>;
+    update(admin: User): Promise<void>
     delete(id: number): Promise<void>;
-    listAll(): Promise<Administrator[]>;
-    listById(id: number): Promise<Administrator>;
+    listAll(): Promise<User[]>;
+    listById(id: number): Promise<User>;
 }
 
 export default class AdministratorRepo implements IAdministratorRepo {
-  async save(admin: Administrator): Promise<void> {
+  async save(admin: User): Promise<void> {
     try {
-      await Administrator.create({
+      await User.create({
         name: admin.name,
         email: admin.email,
-        password: admin.password
+        password: admin.password,
+        level_access: 2
       });
     } catch (err) {
       if(err instanceof Sequelize.UniqueConstraintError) {
@@ -26,11 +28,12 @@ export default class AdministratorRepo implements IAdministratorRepo {
     }
   }
 
-  async update(admin: Administrator): Promise<void> {
+  async update(admin: User): Promise<void> {
     try {
-      const newAdministrator = await Administrator.findOne({
+      const newAdministrator = await User.findOne({
         where: {
-          id: admin.id
+          id: admin.id,
+          level_access: 2
         }
       });
 
@@ -54,9 +57,10 @@ export default class AdministratorRepo implements IAdministratorRepo {
 
   async delete(id: number): Promise<void> {
     try {
-      const newAdministrator = await Administrator.findOne({
+      const newAdministrator = await User.findOne({
         where: {
-          id
+          id,
+          level_access: 2
         }
       });
 
@@ -70,20 +74,34 @@ export default class AdministratorRepo implements IAdministratorRepo {
     }
   }
 
-  async listAll(): Promise<Administrator[]> {
+  async listAll(): Promise<User[]> {
     try {
-      const Administrators = await Administrator.findAll();
+      const Administrators = await User.findAll({
+        where: {
+          level_access: 2
+        },
+        include: {
+          model: UserPhoto,
+          as: 'photo',
+        }
+      });
+
       return Administrators;
     } catch (err) {
       throw new Error(`Failed to list all admins! ${err}`);
     }
   }
 
-  async listById(id: number): Promise<Administrator> {
+  async listById(id: number): Promise<User> {
     try {
-      const newAdministrator = await Administrator.findOne({
+      const newAdministrator = await User.findOne({
         where: {
-          id
+          id,
+          level_access: 2
+        },
+        include: {
+          model: UserPhoto,
+          as: 'photo',
         }
       });
 

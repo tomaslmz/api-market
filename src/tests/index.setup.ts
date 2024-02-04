@@ -1,12 +1,12 @@
 import express, { Application, Request, Response } from 'express';
-import Database from './database.setup';
+import Database from './database/database.setup';
 import { resolve } from 'path';
 
 import AdministratorRouter from '../router/AdministratorRouter';
 import TokenRouter from '../router/TokenRouter';
 import TagRouter from '../router/TagRouter';
 import SupplierRouter from '../router/SupplierRouter';
-import SupplierPhotoRouter from '../router/SupplierPhotoRouter';
+import UserPhotoRouter from '../router/UserPhotoRouter';
 import UserRouter from '../router/UserRouter';
 
 class App {
@@ -34,14 +34,14 @@ class App {
     this.app.use('/api/v1/token', TokenRouter);
     this.app.use('/api/v1/tag', TagRouter);
     this.app.use('/api/v1/supplier', SupplierRouter);
-    this.app.use('/api/v1/supplier/photo', SupplierPhotoRouter);
     this.app.use('/api/v1/user', UserRouter);
+    this.app.use('/api/v1/user/photo', UserPhotoRouter);
   }
 
   protected connectDatabase(): void {
     const db = new Database();
     db.sequelize?.sync();
-    db.verifyOwner();
+    db.createTestAdmin();
   }
 }
 
