@@ -4,14 +4,15 @@ import isUserLogged from '../middlewares/loginRequired';
 import isAdmin from '../middlewares/adminRequired';
 import { createSupplierSchema, updateSupplierSchema } from '../schema/SupplierSchema';
 import SupplierController from '../controller/SupplierController';
+import isSupplier from '../middlewares/supplierRequired';
 
 class SupplierRoutes extends BaseRoutes {
   public routes(): void {
     this.router.post('/create', isUserLogged, isAdmin, validate(createSupplierSchema), SupplierController.create);
-    this.router.patch('/update', isUserLogged, validate(updateSupplierSchema), SupplierController.update);
-    this.router.delete('/delete', isUserLogged, SupplierController.delete);
-    this.router.get('/list', isUserLogged, SupplierController.listAll);
-    this.router.get('/search', isUserLogged, SupplierController.listById);
+    this.router.patch('/update/:id?', isUserLogged, isSupplier, validate(updateSupplierSchema), SupplierController.update);
+    this.router.delete('/delete/:id?', isUserLogged, isSupplier, SupplierController.delete);
+    this.router.get('/list', isUserLogged, isSupplier, SupplierController.listAll);
+    this.router.get('/search/:id?', isUserLogged, isSupplier, SupplierController.listById);
   }
 }
 
