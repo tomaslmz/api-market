@@ -1,5 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
-import Administrator from '../models/Administrator';
+import jwt, { JwtPayload } from 'jsonwebtoken';
+import User from '../models/User';
+import env from '../env';
 
 export const isAdmin = (req: Request, res: Response, next: NextFunction) => {
   try {
@@ -9,9 +11,18 @@ export const isAdmin = (req: Request, res: Response, next: NextFunction) => {
       throw new Error('Invalid email!');
     }
 
-    const newAdministrator = Administrator.findOne({
+    const data = jwt.verify(req.user.token, env.USER_TOKEN) as JwtPayload;
+
+    const { level_access } = data;
+
+    if(level_access > 2) {
+      throw new Error('You don\'t have permission to access that!');
+    }
+
+    const newAdministrator = User.findOne({
       where: {
-        email
+        email,
+        level_access
       }
     });
 

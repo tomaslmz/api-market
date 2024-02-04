@@ -1,72 +1,19 @@
 import { Response, NextFunction, Request } from 'express';
 import jwt, { JwtPayload } from 'jsonwebtoken';
 import env from '../env';
-
-interface JwtPayLoad {
-  id: number,
-  email: string
-}
+import User from '../models/User';
 
 declare module 'express-serve-static-core' {
   interface Request {
     user: {
       id: number,
-      email: string
+      email: string,
+      token: string
     }
   }
 }
 
-export const isAdminLogged = (req: Request, res: Response, next: NextFunction) => {
-  try {
-    const { authorization } = req.headers;
-
-    if(!authorization) {
-      throw new Error('Authorization can not be null!');
-    }
-
-    const [, token] = authorization.split(' ');
-  
-    const data = jwt.verify(token, env.ADMIN_TOKEN) as JwtPayLoad;
-
-    const { email, id } = data;
-
-    req.user = { id, email };
-
-    next();
-  } catch(err: any) {
-    return res.status(500).json({
-      status: 'Internal server error!',
-      message: err.message
-    });
-  }
-};
-
-export const isSupplierLogged = (req: Request, res: Response, next: NextFunction) => {
-  try {
-    const { authorization } = req.headers;
-
-    if(!authorization) {
-      throw new Error('Authorization can not be null!');
-    }
-
-    const [, token] = authorization.split(' ');
-
-    const data = jwt.verify(token, env.SUPPLIER_TOKEN) as JwtPayload;
-
-    const { email, id } = data;
-
-    req.user = { id, email };
-
-    next();
-  } catch(err: any) {
-    return res.status(500).json({
-      status: 'Internal server error!',
-      message: err.message,
-    });
-  }
-};
-
-export const isUserLogged = (req: Request, res: Response, next: NextFunction) => {
+const isUserLogged = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { authorization } = req.headers;
 
@@ -78,9 +25,21 @@ export const isUserLogged = (req: Request, res: Response, next: NextFunction) =>
 
     const data = jwt.verify(token, env.USER_TOKEN) as JwtPayload;
 
-    const { email, id } = data;
+    const { id, email, passwordHash, level_access } = data;
 
-    req.user = { id, email };
+    const testUser = await User.findOne({
+      where: {
+        email,
+        password: passwordHash,
+        level_access
+      }
+    });
+
+    if(!testUser) {
+      throw new Error('Invalid token!');
+    }
+
+    req.user = { id, email, token };
 
     next();
   } catch(err: any) {
@@ -90,3 +49,5 @@ export const isUserLogged = (req: Request, res: Response, next: NextFunction) =>
     });
   }
 };
+
+export default isUserLogged;
