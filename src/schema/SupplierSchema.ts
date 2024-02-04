@@ -15,6 +15,7 @@ export const createSupplierSchema = z.object({
 });
 
 export const updateSupplierSchema = z.object({
+  params: z.object({ id: z.string().optional() }),
   body: z.object({
     name: z
       .string()
