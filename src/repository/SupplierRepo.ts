@@ -91,7 +91,7 @@ export default class SupplierRepo implements ISupplierRepo {
       const supplier = await User.findOne({
         where: {
           id,
-          leve_access: 3
+          level_access: 3
         }
       });
 

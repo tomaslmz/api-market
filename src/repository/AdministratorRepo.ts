@@ -1,5 +1,6 @@
 import User from '../models/User';
 import Sequelize from 'sequelize';
+import UserPhoto from '../models/UserPhoto';
 
 interface IAdministratorRepo {
     save(admin: User): Promise<void>;
@@ -77,7 +78,11 @@ export default class AdministratorRepo implements IAdministratorRepo {
     try {
       const Administrators = await User.findAll({
         where: {
-          levelAccess: 2
+          level_access: 2
+        },
+        include: {
+          model: UserPhoto,
+          as: 'photo',
         }
       });
 
@@ -92,7 +97,11 @@ export default class AdministratorRepo implements IAdministratorRepo {
       const newAdministrator = await User.findOne({
         where: {
           id,
-          levelAccess: 2
+          level_access: 2
+        },
+        include: {
+          model: UserPhoto,
+          as: 'photo',
         }
       });
 
