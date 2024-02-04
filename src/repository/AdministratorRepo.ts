@@ -68,7 +68,7 @@ export default class AdministratorRepo implements IAdministratorRepo {
         throw new Error('Admin not found!');
       }
 
-      newAdministrator.destroy();
+      await newAdministrator.destroy();
     } catch (err) {
       throw new Error(`Failed to delete an admin! ${err}`);
     }
