@@ -11,7 +11,7 @@ export const isSupplier = (req: Request, res: Response, next: NextFunction) => {
       throw new Error('Invalid email!');
     }
 
-    const data = jwt.verify(req.user.token, env.USER_TOKEN) as JwtPayload;
+    const data = jwt.verify(req.user.token, env.SECRET_TOKEN) as JwtPayload;
 
     const { level_access } = data;
 

@@ -23,7 +23,7 @@ const isUserLogged = async (req: Request, res: Response, next: NextFunction) => 
 
     const [, token] = authorization.split(' ');
 
-    const data = jwt.verify(token, env.USER_TOKEN) as JwtPayload;
+    const data = jwt.verify(token, env.SECRET_TOKEN) as JwtPayload;
 
     const { id, email, passwordHash, level_access } = data;
 

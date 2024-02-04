@@ -41,7 +41,7 @@ class AdministratorController {
 
   async update(req: Request, res: Response) {
     try {
-      const data = jwt.verify(req.user.token, env.USER_TOKEN) as JwtPayload;
+      const data = jwt.verify(req.user.token, env.SECRET_TOKEN) as JwtPayload;
       const { level_access } = data;
 
       const id = level_access == 1 ? parseInt(req.params.id) : req.user.id;
@@ -69,7 +69,7 @@ class AdministratorController {
 
   async delete(req: Request, res: Response) {
     try {
-      const data = jwt.verify(req.user.token, env.USER_TOKEN) as JwtPayload;
+      const data = jwt.verify(req.user.token, env.SECRET_TOKEN) as JwtPayload;
       const { level_access } = data;
 
       const id = level_access == 1 ? parseInt(req.params.id) : req.user.id;
@@ -107,7 +107,7 @@ class AdministratorController {
 
   async listById(req: Request, res: Response) {
     try {
-      const data = jwt.verify(req.user.token, env.USER_TOKEN) as JwtPayload;
+      const data = jwt.verify(req.user.token, env.SECRET_TOKEN) as JwtPayload;
       const { level_access } = data;
 
       const id = level_access == 1 ? parseInt(req.params.id) : req.user.id;
