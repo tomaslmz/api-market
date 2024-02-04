@@ -14,7 +14,7 @@ class TagController {
 
       res.status(200).json({
         status: 'Created!',
-        message: 'Tag successfully created'
+        message: 'Tag successfully created!'
       });
     } catch(err: any) {
       res.status(500).json({

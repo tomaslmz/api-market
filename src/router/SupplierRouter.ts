@@ -7,7 +7,7 @@ import SupplierController from '../controller/SupplierController';
 
 class SupplierRoutes extends BaseRoutes {
   public routes(): void {
-    this.router.post('/create', isAdmin, isUserLogged, validate(createSupplierSchema), SupplierController.create);
+    this.router.post('/create', isUserLogged, isAdmin, validate(createSupplierSchema), SupplierController.create);
     this.router.patch('/update', isUserLogged, validate(updateSupplierSchema), SupplierController.update);
     this.router.delete('/delete', isUserLogged, SupplierController.delete);
     this.router.get('/list', isUserLogged, SupplierController.listAll);

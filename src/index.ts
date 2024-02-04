@@ -6,8 +6,8 @@ import AdministratorRouter from './router/AdministratorRouter';
 import TokenRouter from './router/TokenRouter';
 import TagRouter from './router/TagRouter';
 import SupplierRouter from './router/SupplierRouter';
-import SupplierPhotoRouter from './router/SupplierPhotoRouter';
 import UserRouter from './router/UserRouter';
+import UserPhotoRouter from './router/UserPhotoRouter';
 
 class App {
   public app: Application;
@@ -34,14 +34,13 @@ class App {
     this.app.use('/api/v1/token', TokenRouter);
     this.app.use('/api/v1/tag', TagRouter);
     this.app.use('/api/v1/supplier', SupplierRouter);
-    this.app.use('/api/v1/supplier/photo', SupplierPhotoRouter);
+    this.app.use('/api/v1/user/photo', UserPhotoRouter);
     this.app.use('/api/v1/user', UserRouter);
   }
 
   protected connectDatabase(): void {
     const db = new Database();
     db.sequelize?.sync();
-    db.verifyOwner();
   }
 }
 

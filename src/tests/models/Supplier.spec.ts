@@ -1,6 +1,6 @@
 import { expect, it, beforeEach } from 'vitest';
 import sequelize from '../sequelize.config';
-import Supplier from '../../models/Supplier';
+import User from '../../models/User';
 import SupplierRepo from '../../repository/SupplierRepo';
 import getRandomEmail from '../utils/randomEmail';
 
@@ -11,21 +11,22 @@ beforeEach(async () => {
 it('should create a supplier and store it', async () => {
   const email = getRandomEmail();
 
-  const newSupplier = new Supplier({
+  const newSupplier = new User({
     name: 'test',
     email,
     password: 'test'
   });
 
-  expect(newSupplier).toBeInstanceOf(Supplier);
+  expect(newSupplier).toBeInstanceOf(User);
   expect(newSupplier.name).toEqual('test');
   expect(newSupplier.email).toEqual(email);
 
   await new SupplierRepo().save(newSupplier);
 
-  await Supplier.destroy({
+  await User.destroy({
     where: {
-      email
+      email,
+      level_access: 3
     }
   });
 });
@@ -33,10 +34,11 @@ it('should create a supplier and store it', async () => {
 it('should select a supplier', async () => {
   const email = getRandomEmail();
 
-  const testSupplier = await Supplier.create({
+  const testSupplier = await User.create({
     name: 'test',
     email,
-    password: 'test'
+    password: 'test',
+    level_access: 3
   });
 
   expect(testSupplier.name).toEqual('test');
@@ -44,7 +46,7 @@ it('should select a supplier', async () => {
 
   const newSupplier = await new SupplierRepo().listById(testSupplier.id);
 
-  expect(newSupplier).toBeInstanceOf(Supplier);
+  expect(newSupplier).toBeInstanceOf(User);
   expect(newSupplier.name).toEqual('test');
   expect(newSupplier.email).toEqual(email);
 
@@ -54,22 +56,24 @@ it('should select a supplier', async () => {
 it('should delete a supplier', async () => {
   const email = getRandomEmail();
 
-  const newSupplier = await Supplier.create({
+  const newSupplier = await User.create({
     name: 'test',
     email,
-    password: 'test'
+    password: 'test',
+    level_access: 3
   });
 
   expect(newSupplier.name).toEqual('test');
   expect(newSupplier.email).toEqual(email);
 
-  expect(newSupplier).toBeInstanceOf(Supplier);
+  expect(newSupplier).toBeInstanceOf(User);
 
   await new SupplierRepo().delete(newSupplier.id);
 
-  const testSupplier = await Supplier.findOne({
+  const testSupplier = await User.findOne({
     where: {
-      email
+      email,
+      level_access: 3
     }
   });
 
@@ -79,20 +83,21 @@ it('should delete a supplier', async () => {
 it('should update a supplier', async () => {
   const email = getRandomEmail();
 
-  const newSupplier = await Supplier.create({
+  const newSupplier = await User.create({
     name: 'test',
     email,
-    password: 'test'
+    password: 'test',
+    level_access: 3
   });
 
   expect(newSupplier.name).toEqual('test');
   expect(newSupplier.email).toEqual(email);
 
-  expect(newSupplier).toBeInstanceOf(Supplier);
+  expect(newSupplier).toBeInstanceOf(User);
 
   const newEmail = getRandomEmail();
 
-  const updatedSupplier = new Supplier({
+  const updatedSupplier = new User({
     id: newSupplier.id,
     name: 'test2',
     email: newEmail,
@@ -101,18 +106,18 @@ it('should update a supplier', async () => {
 
   await new SupplierRepo().update(updatedSupplier);
 
-  const testSupplier = await Supplier.findOne({
+  const testSupplier = await User.findOne({
     where: {
-      email: newEmail
+      email: newEmail,
+      level_access: 3
     }
   });
 
-  expect(testSupplier).toBeInstanceOf(Supplier);
+  expect(testSupplier).toBeInstanceOf(User);
   
   if(testSupplier) {
     expect(testSupplier.name).toEqual('test2');
     expect(testSupplier.email).toEqual(newEmail);
     testSupplier.destroy();
   }
-
 });

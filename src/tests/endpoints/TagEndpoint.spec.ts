@@ -1,13 +1,14 @@
 import { it, describe, expect,  } from 'vitest';
 import request from 'supertest';
-import env from '../env';
 import Tag from '../../models/Tag';
+import getToken from '../utils/getToken';
 import getRandomName from '../utils/randomName';
 import app from '../index.setup';
 import getRandomColor from '../utils/randomColor';
 
 
-describe('API Tag endpoints!', () => {
+describe('API Tag endpoints!', async () => {
+  const token = await getToken('test@owner.com', 'test');
   describe('POST /tag/create', () => {
     it('should create a tag', async () => {
       const name = getRandomName();
@@ -15,7 +16,7 @@ describe('API Tag endpoints!', () => {
 
       const response = await request(app)
         .post('/api/v1/tag/create')
-        .set('Authorization', `Bearer ${env.SUPPLIER_TEST_TOKEN}`)
+        .set('Authorization', `Bearer ${token}`)
         .send({ name, color })
         .expect(200);
 
@@ -54,7 +55,7 @@ describe('API Tag endpoints!', () => {
 
       const response = await request(app)
         .patch(`/api/v1/tag/update/${newTag.id}`)
-        .set('Authorization', `Bearer ${env.SUPPLIER_TEST_TOKEN}`)
+        .set('Authorization', `Bearer ${token}`)
         .send({ name, color: newColor })
         .expect(200);
 
@@ -69,7 +70,7 @@ describe('API Tag endpoints!', () => {
       const { status, message } = await response.body;
 
       expect(status).toEqual('Updated!');
-      expect(message.message).toEqual('Tag successfully updated!');
+      expect(message).toEqual('Tag successfully updated!');
 
       await updatedTag?.destroy();
 
@@ -95,7 +96,7 @@ describe('API Tag endpoints!', () => {
       
       const response = await request(app)
         .delete(`/api/v1/tag/delete/${newTag.id}`)
-        .set('Authorization', `Bearer ${env.SUPPLIER_TEST_TOKEN}`)
+        .set('Authorization', `Bearer ${token}`)
         .expect(200);
 
       const { status, message } = response.body;
@@ -138,7 +139,7 @@ describe('API Tag endpoints!', () => {
       });
 
       const response = await request(app)
-        .get(`/api/v1/tag/search/${newTag.id}`)
+        .get(`/api/v1/tag/search/${newTag.name}`)
         .expect(200);
 
       const { status, message, data } = response.body;
