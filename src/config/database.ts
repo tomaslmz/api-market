@@ -1,8 +1,8 @@
 import { Sequelize } from 'sequelize-typescript';
+
 import env from '../env';
 import Tag from '../models/Tag';
 import UserPhoto from '../models/UserPhoto';
-import LevelAccess from '../models/LevelAccess';
 import User from '../models/User';
 
 export default class Database {
@@ -26,7 +26,7 @@ export default class Database {
       port: parseInt(this.POSTGRES_PORT),
       host: this.POSTGRES_HOST,
       dialect: 'postgres',
-      models: [Tag, UserPhoto, LevelAccess, User]
+      models: [Tag, UserPhoto, User]
     });
 
     this.sequelize.authenticate().then(() => {
@@ -34,31 +34,5 @@ export default class Database {
     }).catch((err) => {
       console.log(err);
     });
-  }
-
-  public async verifyLevelAccess() {
-    const levelAccess = await LevelAccess.findAll();
-
-    if(levelAccess.length === 0) {
-      await LevelAccess.create({
-        id: 1,
-        name: 'Owner'
-      });
-
-      await LevelAccess.create({
-        id: 2,
-        name: 'Administrator'
-      });
-
-      await LevelAccess.create({
-        id: 3,
-        name: 'Supplier'
-      });
-
-      await LevelAccess.create({
-        id: 4,
-        name: 'User'
-      });
-    }
   }
 }
