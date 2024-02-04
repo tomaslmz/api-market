@@ -1,13 +1,16 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Request, Response } from 'express';
 import User from '../models/User';
+import jwt, { JwtPayload } from 'jsonwebtoken';
 import AdministratorRepo from '../repository/AdministratorRepo';
+import env from '../env';
 
 declare module 'express-serve-static-core' {
     interface Request {
       user: {
         id: number,
-        email: string
+        email: string,
+        token: string
       }
     }
   }
@@ -38,7 +41,11 @@ class AdministratorController {
 
   async update(req: Request, res: Response) {
     try {
-      const id = req.user.id;
+      const data = jwt.verify(req.user.token, env.USER_TOKEN) as JwtPayload;
+      const { level_access } = data;
+
+      const id = level_access == 1 ? parseInt(req.params.id) : req.user.id;
+      
       const newAdministrator = new User({
         id,
         name: req.body.name,
@@ -62,7 +69,10 @@ class AdministratorController {
 
   async delete(req: Request, res: Response) {
     try {
-      const id = req.user.id;
+      const data = jwt.verify(req.user.token, env.USER_TOKEN) as JwtPayload;
+      const { level_access } = data;
+
+      const id = level_access == 1 ? parseInt(req.params.id) : req.user.id;
 
       await new AdministratorRepo().delete(id);
 
@@ -97,7 +107,10 @@ class AdministratorController {
 
   async listById(req: Request, res: Response) {
     try {
-      const id = req.user.id;
+      const data = jwt.verify(req.user.token, env.USER_TOKEN) as JwtPayload;
+      const { level_access } = data;
+
+      const id = level_access == 1 ? parseInt(req.params.id) : req.user.id;
 
       const newAdministrator = await new AdministratorRepo().listById(id);
 
