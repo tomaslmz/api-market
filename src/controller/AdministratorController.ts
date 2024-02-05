@@ -29,7 +29,7 @@ class AdministratorController {
 
       res.status(200).json({
         status: 'Created!',
-        message: 'Successfully administrator created!'
+        message: 'This administrators has been created successfully!'
       });
     } catch(err: any) {
       res.status(500).json({
@@ -57,7 +57,7 @@ class AdministratorController {
 
       res.status(200).json({
         status: 'Updated!',
-        message: 'Successfully administrator updated!'
+        message: 'This administrators has been updated successfully!'
       });
     } catch(err: any) {
       res.status(500).json({
@@ -78,7 +78,7 @@ class AdministratorController {
 
       res.status(200).json({
         status: 'Deleted!',
-        message: 'Successfully administrator deleted!'
+        message: 'This administrators has been deleted successfully!'
       });
     } catch(err: any) {
       res.status(500).json({
@@ -94,7 +94,7 @@ class AdministratorController {
 
       res.status(200).json({
         status: 'Ok!',
-        message: 'Successfully fetched administrator data!',
+        message: 'The administrators data has been fetched successfully!',
         data: Administrators
       });
     } catch(err: any) {
@@ -116,7 +116,7 @@ class AdministratorController {
 
       res.status(200).json({
         status: 'Ok!',
-        message: 'Successfully fetched administrator data!',
+        message: 'This administrator data has been fetched successfully!',
         data: newAdministrator
       });
     } catch(err: any) {

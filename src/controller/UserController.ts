@@ -65,6 +65,23 @@ class UserController {
     }
   }
 
+  async listAll(req: Request, res: Response) {
+    try {
+      const Users = await new UserRepo().listAll();
+
+      res.status(200).json({
+        status: 'Ok!',
+        message: 'The administrators data has been fetched successfully!',
+        data: Users
+      });
+    } catch(err: any) {
+      res.status(500).json({
+        status: 'Internal server error!',
+        message: err.message,
+      });
+    }
+  }
+
   async listById(req: Request, res: Response) {
     try {
       const id = req.user.id;
@@ -73,7 +90,7 @@ class UserController {
 
       res.status(200).json({
         status: 'Ok!',
-        message: 'Successfully fetched user data!',
+        message: 'This administrator data has been fetched successfully!',
         data: Users
       });
     } catch(err: any) {

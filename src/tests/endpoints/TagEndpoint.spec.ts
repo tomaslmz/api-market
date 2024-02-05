@@ -23,7 +23,7 @@ describe('API Tag endpoints!', async () => {
       const { status, message } = await response.body;
 
       expect(status).toEqual('Created!');
-      expect(message).toEqual('Tag successfully created!');
+      expect(message).toEqual('This tag has been created successfully!');
 
       await Tag.destroy({
         where: {
@@ -70,7 +70,7 @@ describe('API Tag endpoints!', async () => {
       const { status, message } = await response.body;
 
       expect(status).toEqual('Updated!');
-      expect(message).toEqual('Tag successfully updated!');
+      expect(message).toEqual('This tag has been updated successfully!');
 
       await updatedTag?.destroy();
 
@@ -102,7 +102,7 @@ describe('API Tag endpoints!', async () => {
       const { status, message } = response.body;
 
       expect(status).toEqual('Deleted!');
-      expect(message).toEqual('Tag successfully deleted!');
+      expect(message).toEqual('This tag has been deleted successfully!');
 
       const testTag = await Tag.findOne({
         where: {
@@ -123,7 +123,7 @@ describe('API Tag endpoints!', async () => {
       const { status, message, data } = response.body;
 
       expect(status).toEqual('Ok!');
-      expect(message).toEqual('Successfully fetched tags data!');
+      expect(message).toEqual('The tags data has been fetched successfully!');
       expect(data).toBeInstanceOf(Object);
     });
   });
@@ -145,7 +145,7 @@ describe('API Tag endpoints!', async () => {
       const { status, message, data } = response.body;
 
       expect(status).toEqual('Ok!');
-      expect(message).toEqual('Successfully fetched tag data!');
+      expect(message).toEqual('This tag data has been fetched successfully!');
       expect(data).toBeInstanceOf(Object);
 
       expect(name).toEqual(data.name);
