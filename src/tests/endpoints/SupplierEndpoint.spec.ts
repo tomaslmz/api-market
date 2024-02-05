@@ -25,8 +25,6 @@ describe('API supplier endpoints!', async () => {
       expect(status).toEqual('Created!');
       expect(message).toEqual('Supplier has been created successfully!');
 
-      console.log(email, name);
-
       await User.destroy({
         where: {
           email,

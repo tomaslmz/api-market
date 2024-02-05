@@ -23,7 +23,7 @@ describe('API Administrator endpoints!', async () => {
       const responseBody = await response.body;
 
       expect(responseBody.status).toEqual('Created!');
-      expect(responseBody.message).toEqual('Successfully administrator created!');
+      expect(responseBody.message).toEqual('This administrators has been created successfully!');
 
       await User.destroy({
         where: {
@@ -75,7 +75,7 @@ describe('API Administrator endpoints!', async () => {
       const responseBody = await response.body;
 
       expect(responseBody.status).toEqual('Updated!');
-      expect(responseBody.message).toEqual('Successfully administrator updated!');
+      expect(responseBody.message).toEqual('This administrators has been updated successfully!');
 
       await updatedAdministrator?.destroy();
 
@@ -110,7 +110,7 @@ describe('API Administrator endpoints!', async () => {
       const { status, message } = response.body;
 
       expect(status).toEqual('Deleted!');
-      expect(message).toEqual('Successfully administrator deleted!');
+      expect(message).toEqual('This administrators has been deleted successfully!');
 
       const testAdministrator = await User.findOne({
         where: {
@@ -134,7 +134,7 @@ describe('API Administrator endpoints!', async () => {
       const { status, message, data } = response.body;
 
       expect(status).toEqual('Ok!');
-      expect(message).toEqual('Successfully fetched administrator data!');
+      expect(message).toEqual('The administrators data has been fetched successfully!');
       expect(data).toBeInstanceOf(Object);
     });
   });
@@ -159,7 +159,7 @@ describe('API Administrator endpoints!', async () => {
       const { status, message, data } = response.body;
 
       expect(status).toEqual('Ok!');
-      expect(message).toEqual('Successfully fetched administrator data!');
+      expect(message).toEqual('This administrator data has been fetched successfully!');
       expect(data).toBeInstanceOf(Object);
 
       expect(name).toEqual(data.name);
