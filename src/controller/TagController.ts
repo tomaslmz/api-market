@@ -14,7 +14,7 @@ class TagController {
 
       res.status(200).json({
         status: 'Created!',
-        message: 'Tag successfully created!'
+        message: 'This tag has been created successfully!'
       });
     } catch(err: any) {
       res.status(500).json({
@@ -37,7 +37,7 @@ class TagController {
 
       res.status(200).json({
         status: 'Updated!',
-        message: 'Tag successfully updated!',
+        message: 'This tag has been updated successfully!',
       });
     } catch(err: any) {
       res.status(500).json({
@@ -55,7 +55,7 @@ class TagController {
 
       res.status(200).json({
         status: 'Deleted!',
-        message: 'Tag successfully deleted!'
+        message: 'This tag has been deleted successfully!'
       });
     } catch(err: any) {
       res.status(500).json({
@@ -71,7 +71,7 @@ class TagController {
 
       res.status(200).json({
         status: 'Ok!',
-        message: 'Successfully fetched tags data!',
+        message: 'The tags data has been fetched successfully!',
         data: Tags
       });
     } catch(err: any) {
@@ -90,7 +90,7 @@ class TagController {
 
       res.status(200).json({
         status: 'Ok!',
-        message: 'Successfully fetched tag data!',
+        message: 'This tag data has been fetched successfully!',
         data: newTag
       });
     } catch(err: any) {
