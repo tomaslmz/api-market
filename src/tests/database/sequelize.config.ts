@@ -5,6 +5,8 @@ import User from '../../models/User';
 import UserPhoto from '../../models/UserPhoto';
 
 import env from '../envTest';
+import Product from '../../models/Product';
+import ProductPhoto from '../../models/ProductPhoto';
 
 const POSTGRES_DB = env.TEST_POSTGRES_DB;
 const POSTGRES_HOST = env.POSTGRES_HOST;
@@ -19,7 +21,7 @@ const sequelize = new Sequelize({
   port: parseInt(POSTGRES_PORT),
   host: POSTGRES_HOST,
   dialect: 'postgres',
-  models: [UserPhoto, Tag, User],
+  models: [UserPhoto, Tag, User, Product, ProductPhoto],
   logging: false
 });
 

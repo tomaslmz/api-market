@@ -1,4 +1,5 @@
-import { Model, Table, Column, DataType } from 'sequelize-typescript';
+import { Model, Table, Column, DataType, HasMany } from 'sequelize-typescript';
+import Product from './Product';
 
 @Table({
   tableName: Tag.tableName
@@ -29,4 +30,7 @@ export default class Tag extends Model {
     allowNull: true,
     field: Tag.TAG_COLOR,
   }) color!: string;
+
+  @HasMany(() => Product)
+    products!: Product[];
 }

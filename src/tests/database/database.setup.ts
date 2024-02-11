@@ -4,6 +4,8 @@ import env from '../envTest';
 import Tag from '../../models/Tag';
 import User from '../../models/User';
 import UserPhoto from '../../models/UserPhoto';
+import Product from '../../models/Product';
+import ProductPhoto from '../../models/ProductPhoto';
 
 export default class Database {
   public sequelize: Sequelize | undefined;
@@ -26,7 +28,7 @@ export default class Database {
       port: parseInt(this.POSTGRES_PORT),
       host: this.POSTGRES_HOST,
       dialect: 'postgres',
-      models: [Tag, UserPhoto, User],
+      models: [Tag, UserPhoto, User, Product, ProductPhoto],
       logging: false
     });
 
