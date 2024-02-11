@@ -9,7 +9,7 @@ class UserRoutes extends BaseRoutes {
     this.router.post('/create', validate(createUserSchema), UserController.create);
     this.router.patch('/update', isUserLogged, validate(updateUserSchema), UserController.update);
     this.router.delete('/delete', isUserLogged, UserController.delete);
-    this.router.get('/search/:id', isUserLogged, UserController.listById);
+    this.router.get('/search', isUserLogged, UserController.listById);
     this.router.get('/list', isUserLogged, UserController.listAll);
   }
 }

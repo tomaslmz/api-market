@@ -15,7 +15,7 @@ class UserController {
 
       res.status(200).json({
         status: 'Created!',
-        message: 'This user has been created succesfully!',
+        message: 'This user has been created successfully!',
       });
     } catch(err: any) {
       res.status(500).json({
@@ -29,6 +29,7 @@ class UserController {
     try {
       const newUser = new User();
 
+      newUser.id = req.user.id;
       newUser.name = req.body.name;
       newUser.email = req.body.email;
       newUser.password = req.body.password;
@@ -37,7 +38,7 @@ class UserController {
 
       res.status(200).json({
         status: 'Updated!',
-        message: 'This user has been updated succesfully!',
+        message: 'This user has been updated successfully!',
       });
     } catch(err: any) {
       res.status(500).json({
@@ -54,8 +55,8 @@ class UserController {
       await new UserRepo().delete(id);
 
       res.status(200).json({
-        status: 'Created!',
-        message: 'This user has been deleted succesfully!',
+        status: 'Deleted!',
+        message: 'This user has been deleted successfully!',
       });
     } catch(err: any) {
       res.status(500).json({
@@ -71,7 +72,7 @@ class UserController {
 
       res.status(200).json({
         status: 'Ok!',
-        message: 'The administrators data has been fetched successfully!',
+        message: 'The users data has been fetched successfully!',
         data: Users
       });
     } catch(err: any) {
@@ -90,7 +91,7 @@ class UserController {
 
       res.status(200).json({
         status: 'Ok!',
-        message: 'This administrator data has been fetched successfully!',
+        message: 'This user data has been fetched successfully!',
         data: Users
       });
     } catch(err: any) {
