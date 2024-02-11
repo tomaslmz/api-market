@@ -1,8 +1,6 @@
 import { Request, Response } from 'express';
 import SupplierRepo from '../repository/SupplierRepo';
-import jwt, { JwtPayload } from 'jsonwebtoken';
 import User from '../models/User';
-import env from '../env';
 
 class SupplierController {
   async create(req: Request, res: Response) {
@@ -31,10 +29,7 @@ class SupplierController {
     try {
       const newSupplier = new User();
 
-      const data = jwt.verify(req.user.token, env.SECRET_TOKEN) as JwtPayload;
-      const { level_access } = data;
-
-      const id = level_access <= 2 ? parseInt(req.params.id) : req.user.id;
+      const id = req.user.id;
 
       newSupplier.id = id;
       newSupplier.name = req.body.name;
@@ -57,10 +52,7 @@ class SupplierController {
 
   async delete(req: Request, res: Response) {
     try {
-      const data = jwt.verify(req.user.token, env.SECRET_TOKEN) as JwtPayload;
-      const { level_access } = data;
-
-      const id = level_access <= 2 ? parseInt(req.params.id) : req.user.id;
+      const id = req.user.id;
 
       await new SupplierRepo().delete(id);
 
@@ -95,10 +87,7 @@ class SupplierController {
 
   async listById(req: Request, res: Response) {
     try { 
-      const data = jwt.verify(req.user.token, env.SECRET_TOKEN) as JwtPayload;
-      const { level_access } = data;
-
-      const id = level_access <= 2 ? parseInt(req.params.id) : req.user.id;
+      const id = req.user.id;
 
       const supplier = await new SupplierRepo().listById(id);
 

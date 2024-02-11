@@ -1,9 +1,6 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Request, Response } from 'express';
 import User from '../models/User';
-import jwt, { JwtPayload } from 'jsonwebtoken';
 import AdministratorRepo from '../repository/AdministratorRepo';
-import env from '../env';
 
 declare module 'express-serve-static-core' {
     interface Request {
@@ -29,7 +26,7 @@ class AdministratorController {
 
       res.status(200).json({
         status: 'Created!',
-        message: 'This administrators has been created successfully!'
+        message: 'This administrator has been created successfully!'
       });
     } catch(err: any) {
       res.status(500).json({
@@ -41,10 +38,7 @@ class AdministratorController {
 
   async update(req: Request, res: Response) {
     try {
-      const data = jwt.verify(req.user.token, env.SECRET_TOKEN) as JwtPayload;
-      const { level_access } = data;
-
-      const id = level_access == 1 ? parseInt(req.params.id) : req.user.id;
+      const id = req.user.id;
       
       const newAdministrator = new User({
         id,
@@ -57,7 +51,7 @@ class AdministratorController {
 
       res.status(200).json({
         status: 'Updated!',
-        message: 'This administrators has been updated successfully!'
+        message: 'This administrator has been updated successfully!'
       });
     } catch(err: any) {
       res.status(500).json({
@@ -69,10 +63,7 @@ class AdministratorController {
 
   async delete(req: Request, res: Response) {
     try {
-      const data = jwt.verify(req.user.token, env.SECRET_TOKEN) as JwtPayload;
-      const { level_access } = data;
-
-      const id = level_access == 1 ? parseInt(req.params.id) : req.user.id;
+      const id = req.user.id;
 
       await new AdministratorRepo().delete(id);
 
@@ -107,10 +98,7 @@ class AdministratorController {
 
   async listById(req: Request, res: Response) {
     try {
-      const data = jwt.verify(req.user.token, env.SECRET_TOKEN) as JwtPayload;
-      const { level_access } = data;
-
-      const id = level_access == 1 ? parseInt(req.params.id) : req.user.id;
+      const id = req.user.id;
 
       const newAdministrator = await new AdministratorRepo().listById(id);
 
