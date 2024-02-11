@@ -8,6 +8,8 @@ import TagRouter from './router/TagRouter';
 import SupplierRouter from './router/SupplierRouter';
 import UserRouter from './router/UserRouter';
 import UserPhotoRouter from './router/UserPhotoRouter';
+import ProductRouter from './router/ProductRouter';
+import ProductPhotoRouter from './router/ProductPhotoRouter';
 
 class App {
   public app: Application;
@@ -36,6 +38,8 @@ class App {
     this.app.use('/api/v1/supplier', SupplierRouter);
     this.app.use('/api/v1/user/photo', UserPhotoRouter);
     this.app.use('/api/v1/user', UserRouter);
+    this.app.use('/api/v1/product', ProductRouter);
+    this.app.use('/api/v1/product/photo', ProductPhotoRouter);
   }
 
   protected connectDatabase(): void {
