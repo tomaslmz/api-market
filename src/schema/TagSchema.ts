@@ -18,7 +18,7 @@ export const createTagSchema = z.object({
 });
 
 export const updateTagSchema = z.object({
-  params: z.object({ id: z.string() }),
+  params: z.object({ id: z.coerce.number() }),
   body: z.object({
     name: z
       .string()
