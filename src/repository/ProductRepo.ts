@@ -1,5 +1,6 @@
 import Product from '../models/Product';
 import Tag from '../models/Tag';
+import { Op } from 'sequelize';
 
 interface IProductRepo {
   save(product: Product): Promise<void>;
@@ -7,6 +8,8 @@ interface IProductRepo {
   delete(id: number): Promise<void>;
   listAll(): Promise<Product[]>;
   listById(id: number): Promise<Product>;
+  listByName(name: string): Promise<Product[]>;
+  listByPrice(min: number, max: number): Promise<Product[]>;
 }
 
 
@@ -102,6 +105,46 @@ export default class ProductRepo implements IProductRepo {
       const testProduct = await Product.findOne({
         where: {
           id
+        }
+      });
+
+      if(!testProduct) {
+        throw new Error('Product not found!');
+      }
+
+      return testProduct;
+    } catch(err: any) {
+      throw new Error(`Failed to find this product! ${err}`);
+    }
+  }
+
+  async listByName(name: string): Promise<Product[]> {
+    try {
+      const testProduct = await Product.findAll({
+        where: {
+          name: {
+            [Op.like]: `%${name}%`
+          }
+        }
+      });
+
+      if(!testProduct) {
+        throw new Error('Product not found!');
+      }
+
+      return testProduct;
+    } catch(err: any) {
+      throw new Error(`Failed to find this product! ${err}`);
+    }
+  }
+
+  async listByPrice(min: number, max: number): Promise<Product[]> {
+    try {
+      const testProduct = await Product.findAll({
+        where: {
+          price: {
+            [Op.between]: [min, max]
+          }
         }
       });
 
