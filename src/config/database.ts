@@ -38,4 +38,21 @@ export default class Database {
       console.log(err);
     });
   }
+
+  public async createOwner() {
+    const isOwnerExists = await User.findOne({
+      where: {
+        email: env.OWNER_EMAIL
+      }
+    });
+
+    if(!isOwnerExists) {
+      await User.create({
+        name: 'owner',
+        email: env.OWNER_EMAIL,
+        password: env.OWNER_PASSWORD,
+        level_access: 1
+      });
+    }
+  }
 }

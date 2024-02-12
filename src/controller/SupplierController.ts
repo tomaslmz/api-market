@@ -15,7 +15,7 @@ class SupplierController {
 
       res.status(200).json({
         status: 'Created!',
-        message: 'Supplier has been created successfully!'
+        message: 'This supplier has been created successfully!'
       });
     } catch(err: any) {
       res.status(500).json({
@@ -74,7 +74,7 @@ class SupplierController {
 
       res.status(200).json({
         status: 'Ok!',
-        message: 'Successfully fetched suppliers data!',
+        message: 'The suppliers data has been fetched successfully!',
         data: Suppliers
       });
     } catch(err: any) {
@@ -93,7 +93,7 @@ class SupplierController {
 
       res.status(200).json({
         status: 'Ok!',
-        message: 'Successfully fetched this supplier data!',
+        message: 'This supplier data has been fetched successfully!',
         data: supplier
       });
     } catch(err: any) {

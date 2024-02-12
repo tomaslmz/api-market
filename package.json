@@ -4,12 +4,13 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "npx vitest",
+    "test": "npx vitest --pool=forks",
     "start:dev": "npx tsx watch ./src/index.ts",
-    "start:test": "npx tsx watch ./src/tests/server.setup.ts"
+    "start:test": "npx tsx watch ./src/__tests__/serverTest.ts"
   },
   "keywords": [],
   "author": "",
+  "type": "module",
   "license": "ISC",
   "devDependencies": {
     "@types/bcrypt": "^5.0.2",

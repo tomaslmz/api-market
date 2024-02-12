@@ -1,5 +1,5 @@
 import express, { Application, Request, Response } from 'express';
-import Database from './database/database.setup';
+import Database from './config/database';
 import { resolve } from 'path';
 
 import AdministratorRouter from '../router/AdministratorRouter';
@@ -24,7 +24,7 @@ class App {
   protected plugins(): void {
     this.app.use(express.json());
     this.app.use(express.urlencoded({ extended: true }));
-    this.app.use('/images/', express.static(resolve(__dirname, '..', 'uploads', 'images')));
+    this.app.use('/images/', express.static(resolve('..', 'uploads', 'images')));
   }
 
   protected routes(): void {
@@ -49,6 +49,4 @@ class App {
   }
 }
 
-const app = new App().app;
-
-export default app;
+export default new App().app;

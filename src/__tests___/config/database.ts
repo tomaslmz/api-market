@@ -32,11 +32,7 @@ export default class Database {
       logging: false
     });
 
-    this.sequelize.authenticate().then(() => {
-      console.log('Database connection has been established successfully');
-    }).catch((err) => {
-      console.log(err);
-    });
+    this.sequelize.authenticate();
   }
 
   public async createTestAdmin() {

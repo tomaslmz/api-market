@@ -11,7 +11,7 @@ class SupplierRoutes extends BaseRoutes {
     this.router.post('/create', isUserLogged, isAdmin, validate(createSupplierSchema), SupplierController.create);
     this.router.patch('/update/:id?', isUserLogged, isSupplier, validate(updateSupplierSchema), SupplierController.update);
     this.router.delete('/delete/:id?', isUserLogged, isSupplier, SupplierController.delete);
-    this.router.get('/list', isUserLogged, isSupplier, SupplierController.listAll);
+    this.router.get('/list', SupplierController.listAll);
     this.router.get('/search/:id?', isUserLogged, isSupplier, SupplierController.listById);
   }
 }

@@ -24,7 +24,7 @@ class App {
   protected plugins(): void {
     this.app.use(express.json());
     this.app.use(express.urlencoded({ extended: true }));
-    this.app.use('/images/', express.static(resolve(__dirname, '..', 'uploads', 'images')));
+    this.app.use('/images/', express.static(resolve('..', 'uploads', 'images')));
   }
 
   protected routes(): void {
@@ -45,6 +45,7 @@ class App {
   protected connectDatabase(): void {
     const db = new Database();
     db.sequelize?.sync();
+    db.createOwner();
   }
 }
 

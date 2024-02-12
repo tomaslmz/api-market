@@ -1,5 +1,5 @@
 import request from 'supertest';
-import app from '../index.setup';
+import app from '../appTest';
 
 const getToken = async (email: string, password: string) => {
   const response = await request(app)
