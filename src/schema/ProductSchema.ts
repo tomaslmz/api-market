@@ -22,3 +22,16 @@ export const updateProductSchema = z.object({
     tag_id: z.number().min(1, { message: 'Tag id must be valid!' })
   })
 });
+
+export const searchPriceProductSchema = z.object({
+  query: z.object({
+    min: z.coerce.number().min(0, { message: 'Minimum price must be greater than 0!' }),
+    max: z.coerce.number().min(0, { message: 'Maximum price must be greater than 0!' })
+  })
+});
+
+export const searchNameProductSchema = z.object({
+  params: z.object({
+    name: z.string().min(3, { message: 'Name must be greater than 3 characters!' })
+  })
+});

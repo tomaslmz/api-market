@@ -2,7 +2,7 @@ import ProductController from '../controller/ProductController';
 import isUserLogged from '../middlewares/loginRequired';
 import isSupplier from '../middlewares/supplierRequired';
 import validate from '../middlewares/validateSchema';
-import { createProductSchema, updateProductSchema } from '../schema/ProductSchema';
+import { createProductSchema, updateProductSchema, searchNameProductSchema, searchPriceProductSchema } from '../schema/ProductSchema';
 import BaseRoutes from './base/BaseRouter';
 
 class ProductRoutes extends BaseRoutes {
@@ -11,7 +11,9 @@ class ProductRoutes extends BaseRoutes {
     this.router.patch('/update/:id', isUserLogged, isSupplier, validate(updateProductSchema), ProductController.update);
     this.router.delete('/delete/:id', isUserLogged, isSupplier, ProductController.delete);
     this.router.get('/list', ProductController.listAll);
-    this.router.get('/search/:id', ProductController.listById);
+    this.router.get('/search/id/:id', ProductController.listById);
+    this.router.get('/search/name/:name', validate(searchNameProductSchema), ProductController.listByName);
+    this.router.get('/search/price', validate(searchPriceProductSchema), ProductController.listByPrice);
   }
 }
 
