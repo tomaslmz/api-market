@@ -20,11 +20,11 @@ export default {
 
   storage: multer.diskStorage({
     destination: (req: Request, file: Express.Multer.File, cb: (error: Error | null, destination: string) => void) => {
-      if(!fs.readdirSync(resolve(__dirname, '..', '..', 'uploads', 'images'))) {
-        fs.mkdirSync(resolve(__dirname, '..', '..', 'uploads', 'images'));
+      if(!fs.readdirSync(resolve('uploads', 'images'))) {
+        fs.mkdirSync(resolve('uploads', 'images'));
       }
 
-      cb(null, resolve(__dirname, '..', '..', 'uploads', 'images'));
+      cb(null, resolve('uploads', 'images'));
     },
 
     filename: (req, file, cb) => {

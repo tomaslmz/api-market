@@ -69,7 +69,7 @@ class AdministratorController {
 
       res.status(200).json({
         status: 'Deleted!',
-        message: 'This administrators has been deleted successfully!'
+        message: 'This administrator has been deleted successfully!'
       });
     } catch(err: any) {
       res.status(500).json({

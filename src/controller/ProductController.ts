@@ -81,7 +81,7 @@ class ProductController {
 
       res.status(200).json({
         status: 'Ok!',
-        message: 'The products data has been fetched successfully',
+        message: 'The products data has been fetched successfully!',
         data: Products
       });
     } catch(err: any) {
@@ -100,7 +100,7 @@ class ProductController {
 
       res.status(200).json({
         status: 'Ok!',
-        message: 'The product data has been fetched successfully!',
+        message: 'This product has been fetched data successfully!',
         data: product
       });
     } catch(err: any) {
