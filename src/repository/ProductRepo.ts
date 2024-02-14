@@ -138,11 +138,11 @@ export default class ProductRepo implements IProductRepo {
         where: {
           name: {
             [Op.like]: `%${name}%`
-          },
-          include: {
-            model: ProductPhoto,
-            as: 'photos',
           }
+        },
+        include: {
+          model: ProductPhoto,
+          as: 'photos',
         }
       });
 
@@ -162,11 +162,11 @@ export default class ProductRepo implements IProductRepo {
         where: {
           price: {
             [Op.between]: [min, max]
-          },
-          include: {
-            model: ProductPhoto,
-            as: 'photos',
           }
+        },
+        include: {
+          model: ProductPhoto,
+          as: 'photos',
         }
       });
 

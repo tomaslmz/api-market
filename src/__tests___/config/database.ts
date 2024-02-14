@@ -29,7 +29,10 @@ export default class Database {
       host: this.POSTGRES_HOST,
       dialect: 'postgres',
       models: [Tag, UserPhoto, User, Product, ProductPhoto],
-      logging: false
+      logging: false,
+      pool: {
+        max: 50,
+      }
     });
 
     this.sequelize.authenticate();

@@ -7,8 +7,8 @@ import Tag from '../../models/Tag';
 import getRandomColor from '../utils/randomColor';
 import Product from '../../models/Product';
 
-describe('getting a product!', () => {
-  it('should get a product', async () => {
+describe('getting a product by id!', () => {
+  it('should get a product by name', async () => {
     const newTag = await Tag.create({
       name: uuidv4(),
       color: getRandomColor()
@@ -31,7 +31,7 @@ describe('getting a product!', () => {
     const token = await getToken('test@owner.com', 'test');
 
     const response = await request(app)
-      .get(`/api/v1/product/search/${newProduct.id}`)
+      .get(`/api/v1/product/search/id/${newProduct.id}`)
       .set('Authorization', `Bearer ${token}`)
       .expect(200);
 
