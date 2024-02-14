@@ -1,4 +1,5 @@
 import Product from '../models/Product';
+import ProductPhoto from '../models/ProductPhoto';
 import Tag from '../models/Tag';
 import { Op } from 'sequelize';
 
@@ -77,6 +78,10 @@ export default class ProductRepo implements IProductRepo {
       const testProduct = await Product.findOne({
         where: {
           id
+        },
+        include: {
+          model: ProductPhoto,
+          as: 'photos',
         }
       });
 
@@ -92,7 +97,12 @@ export default class ProductRepo implements IProductRepo {
 
   async listAll(): Promise<Product[]> {
     try {
-      const Products = await Product.findAll();
+      const Products = await Product.findAll({
+        include: {
+          model: ProductPhoto,
+          as: 'photos',
+        }
+      });
 
       return Products;
     } catch(err: any) {
@@ -105,6 +115,10 @@ export default class ProductRepo implements IProductRepo {
       const testProduct = await Product.findOne({
         where: {
           id
+        },
+        include: {
+          model: ProductPhoto,
+          as: 'photos',
         }
       });
 
@@ -124,6 +138,10 @@ export default class ProductRepo implements IProductRepo {
         where: {
           name: {
             [Op.like]: `%${name}%`
+          },
+          include: {
+            model: ProductPhoto,
+            as: 'photos',
           }
         }
       });
@@ -144,6 +162,10 @@ export default class ProductRepo implements IProductRepo {
         where: {
           price: {
             [Op.between]: [min, max]
+          },
+          include: {
+            model: ProductPhoto,
+            as: 'photos',
           }
         }
       });

@@ -45,7 +45,6 @@ export default class ProductPhoto extends Model {
   @Column({
     type: DataType.INTEGER,
     allowNull: false,
-    unique: true
   }) product_id!: number;
 
   @BelongsTo(() => Product)

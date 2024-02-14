@@ -42,9 +42,9 @@ class App {
     this.app.use('/api/v1/product/photo', ProductPhotoRouter);
   }
 
-  protected connectDatabase(): void {
+  protected async connectDatabase(): Promise<void> {
     const db = new Database();
-    db.sequelize?.sync();
+    await db.sequelize?.sync();
     db.createOwner();
   }
 }

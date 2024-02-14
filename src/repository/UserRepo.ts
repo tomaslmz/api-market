@@ -1,4 +1,5 @@
 import User from '../models/User';
+import UserPhoto from '../models/UserPhoto';
 
 interface iUserRepo {
   save(user: User): Promise<void>;
@@ -71,6 +72,10 @@ export default class UserRepo implements iUserRepo {
       return await User.findAll({
         where: {
           level_access: 4
+        },
+        include: {
+          model: UserPhoto,
+          as: 'photo',
         }
       });
     } catch(err: any) {
@@ -84,6 +89,10 @@ export default class UserRepo implements iUserRepo {
         where: {
           id,
           level_access: 4
+        },
+        include: {
+          model: UserPhoto,
+          as: 'photo',
         }
       });
 

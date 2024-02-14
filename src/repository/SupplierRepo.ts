@@ -92,6 +92,10 @@ export default class SupplierRepo implements ISupplierRepo {
         where: {
           id,
           level_access: 3
+        },
+        include: {
+          model: UserPhoto,
+          as: 'photo',
         }
       });
 
