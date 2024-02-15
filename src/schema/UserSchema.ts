@@ -38,4 +38,4 @@ export const depositUserSchema = z.object({
   params: z.object({
     money: z.coerce.number().min(0, { message: 'Invalid deposit value!' })
   })
-})
+});
