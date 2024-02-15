@@ -49,6 +49,11 @@ class TokenController {
 
       req.user = { id, email, token };
 
+      res.cookie('auth', token, {
+        httpOnly: true,
+        maxAge: 15000 * 60 * 60 * 24
+      });
+
       return res.json({ 
         status: 'Ok!',
         message: 'Token has been created successfull',
@@ -64,6 +69,22 @@ class TokenController {
     } catch(err: any) {
       return res.status(500).json({
         status: 'Internal server error!',
+        message: err.message
+      });
+    }
+  }
+
+  async delete(req: Request, res: Response) {
+    try {
+      res.clearCookie('auth');
+
+      res.status(200).json({
+        status: 'Successfull logout!',
+        message: 'You have been logout successfully!'
+      });
+    } catch(err: any) {
+      res.status(500).json({
+        status: 'Internal error server!',
         message: err.message
       });
     }

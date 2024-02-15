@@ -13,7 +13,8 @@ const envSchema = z.object({
   SECRET_TOKEN: z.string(),
   URL:  z.string().url(),
   OWNER_EMAIL: z.string().email(),
-  OWNER_PASSWORD: z.string()
+  OWNER_PASSWORD: z.string(),
+  ORIGIN: z.string().url()
 });
 
 const env = envSchema.parse(process.env);
