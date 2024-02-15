@@ -29,7 +29,6 @@ export default class UserRepo implements iUserRepo {
       const newUser = await User.findOne({
         where: {
           id: user.id,
-          level_access: 4
         }
       });
 
@@ -70,9 +69,6 @@ export default class UserRepo implements iUserRepo {
   async listAll(): Promise<User[]> {
     try {
       return await User.findAll({
-        where: {
-          level_access: 4
-        },
         include: {
           model: UserPhoto,
           as: 'photo',
@@ -87,8 +83,7 @@ export default class UserRepo implements iUserRepo {
     try {
       const newUser = await User.findOne({
         where: {
-          id,
-          level_access: 4
+          id
         },
         include: {
           model: UserPhoto,

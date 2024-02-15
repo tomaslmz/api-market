@@ -27,3 +27,15 @@ export const updateUserSchema = z.object({
       .min(5, { message: 'Password must be greater than 8 characters!'})
   })
 });
+
+export const buyProductUserSchema = z.object({
+  params: z.object({
+    productId: z.coerce.number().min(0, { message: 'Invalid product!' })
+  })
+});
+
+export const depositUserSchema = z.object({
+  params: z.object({
+    money: z.coerce.number().min(0, { message: 'Invalid deposit value!' })
+  })
+})

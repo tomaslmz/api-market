@@ -15,10 +15,16 @@ const validate =
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch(err: any) {
         const errorMessage = JSON.parse(err.message);
-        console.log(errorMessage);
+
+        if(errorMessage[0].message !== 'Required') {
+          return res.status(400).json({
+            status: 'Bad request!',
+            message: errorMessage[0].message,
+          });
+        }
         return res.status(400).json({
           status: 'Bad request!',
-          message: errorMessage[0].message,
+          message: `A valid ${errorMessage[0].path[1]} is required!`,
         });
       }
     };
