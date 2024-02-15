@@ -15,14 +15,12 @@ declare module 'express-serve-static-core' {
 
 const isUserLogged = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const { authorization } = req.headers;
-
-    if(!authorization) {
+    if(!req.headers.authorization && !req.cookies.auth) {
       throw new Error('Authorization can not be null!');
     }
 
-    const [, token] = authorization.split(' ');
-
+    const token = req.headers.authorization ? req.headers.authorization.split(' ')[1] : req.cookies.auth;
+    
     const data = jwt.verify(token, env.SECRET_TOKEN) as JwtPayload;
 
     const { id, email, passwordHash, level_access } = data;

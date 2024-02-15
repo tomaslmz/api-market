@@ -1,6 +1,7 @@
 import express, { Application, Request, Response } from 'express';
 import Database from './config/database';
 import { resolve } from 'path';
+import cors from 'cors';
 
 import AdministratorRouter from './router/AdministratorRouter';
 import TokenRouter from './router/TokenRouter';
@@ -10,6 +11,14 @@ import UserRouter from './router/UserRouter';
 import UserPhotoRouter from './router/UserPhotoRouter';
 import ProductRouter from './router/ProductRouter';
 import ProductPhotoRouter from './router/ProductPhotoRouter';
+import env from './env';
+
+const allowedOrigins = [env.ORIGIN];
+
+const options: cors.CorsOptions = {
+  origin: allowedOrigins,
+  credentials: true
+};
 
 class App {
   public app: Application;
@@ -25,6 +34,7 @@ class App {
     this.app.use(express.json());
     this.app.use(express.urlencoded({ extended: true }));
     this.app.use('/images/', express.static(resolve('..', 'uploads', 'images')));
+    this.app.use(cors(options));
   }
 
   protected routes(): void {
