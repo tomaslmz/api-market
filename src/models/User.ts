@@ -56,8 +56,10 @@ export default class User extends Model {
   @BeforeCreate
   @BeforeUpdate
   static async hashPassword(instance: User) {
-    const passwordHash = await hash(instance.password, 8);
-    instance.password = passwordHash;
+    if(instance.changed('password')) {
+      const passwordHash = await hash(instance.password, 8);
+      instance.password = passwordHash;
+    }
   }
 
   async comparePassword(password: string) {

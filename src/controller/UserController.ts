@@ -1,4 +1,5 @@
 import User from '../models/User';
+import ProductRepo from '../repository/ProductRepo';
 import UserRepo from '../repository/UserRepo';
 import { Request, Response } from 'express';
 
@@ -98,6 +99,64 @@ class UserController {
       res.status(500).json({
         status: 'Internal server error!',
         message: err.message,
+      });
+    }
+  }
+
+  async buyProduct(req: Request, res: Response) {
+    try {
+      const id = req.user.id;
+      const { productId } = req.params;
+
+      const user = await new UserRepo().listById(id);
+      const product = await new ProductRepo().listById(parseInt(productId));
+
+      if(!product) {
+        throw new Error('This product doesn\'t exist!');
+      }
+
+      if(product.price > user.balance) {
+        throw new Error('You don\'t sufficient balance to buy this product!');
+      }
+
+      user.balance = user.balance - product.price;
+
+      await new UserRepo().update(user);
+
+      res.status(200).json({
+        status: 'Purchased product!',
+        message: 'This product has been purchased successfully!'
+      });
+    } catch(err: any) {
+      res.status(500).json({
+        status: 'Internal server error!',
+        message: err.message,
+      });
+    }
+  }
+
+  async deposit(req: Request, res: Response) {
+    try {
+      const id = req.user.id;
+
+      const user = await new UserRepo().listById(id);
+
+      if(!user) {
+        throw new Error('User not found!');
+      }
+
+      user.balance = user.balance + parseInt(req.params.money);
+
+      await new UserRepo().update(user);
+
+      res.status(200).json({
+        status: 'Successfull deposit!',
+        message: 'Your money has been deposited successfully!'
+      });
+    } catch(err: any) {
+      res.status(500).json({
+        status: 'Internal server error!',
+        message: err.message
       });
     }
   }
